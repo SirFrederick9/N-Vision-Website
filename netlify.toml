@@ -1,6 +1,3 @@
 [build]
-  command = ""          # no build step for plain HTML
-  publish = "."         # serve files from the repo root
-
-[build.environment]
-  NODE_VERSION = "18"   # quiets the Node warning/error
+  command = ""        # no build step
+  publish = "."
