@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>N Vision Aerial Photography</title>
+  <meta name="description" content="N Vision Aerial Photography — aerial photos and video for real estate, construction, inspections, and events in the St. Louis / Southwestern IL area.">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <!-- Nav -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <img src="assets/logo.png" alt="N Vision logo">
+        <span>N Vision</span>
+      </div>
+      <nav>
+        <a href="#services">Services</a>
+        <a href="#work">Gallery</a>
+        <a href="#about">Leadership</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div>
+        <h1>Elevated perspectives. Crystal-clear results.</h1>
+        <p>N Vision captures professional aerial photos and video for real estate listings, roof & site inspections, marketing content, and special events. Safe flights, clean edits, and fast turnaround.</p>
+        <div class="badges">
+          <span class="badge">St. Louis • Metro East</span>
+          <span class="badge">FAA-minded ops</span>
+          <span class="badge">4K/RAW workflow</span>
+        </div>
+        <a class="cta" href="#contact">Get a quote</a>
+      </div>
+      <div class="card">
+        <h3>What we deliver</h3>
+        <p>• 15–30 retouched stills per flight<br>• Optional 30–60 sec highlight reel<br>• Web + print-ready files</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="section">
+    <div class="container">
+      <h2>Services</h2>
+      <p class="lead">A focused menu built around high-value aerial use-cases.</p>
+      <div class="grid3">
+        <div class="card">
+          <h3>Real Estate</h3>
+          <p>Aerial exteriors, neighborhood context, and sweeping approach shots that help listings stand out.</p>
+        </div>
+        <div class="card">
+          <h3>Inspections</h3>
+          <p>Roof, facade, and site progress imagery to reduce ladder time and capture angles safely.</p>
+        </div>
+        <div class="card">
+          <h3>Marketing & Events</h3>
+          <p>Short promo videos and social-ready stills for brands, churches, and community events.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work -->
+  <section id="work" class="section" style="padding-top:24px;">
+    <div class="container">
+      <h2>Sample Gallery</h2>
+      <p class="lead">Click any photo to view it larger.</p>
+      <div class="gallery">
+        <img src="assets/gallery1.jpg" alt="Drone photo 1" onclick="openLightbox(this.src)">
+        <img src="assets/gallery2.jpg" alt="Drone photo 2" onclick="openLightbox(this.src)">
+        <img src="assets/gallery3.jpg" alt="Drone photo 3" onclick="openLightbox(this.src)">
+        <img src="assets/gallery4.jpg" alt="Drone photo 4" onclick="openLightbox(this.src)">
+        <img src="assets/gallery5.jpg" alt="Drone photo 5" onclick="openLightbox(this.src)">
+        <img src="assets/gallery6.jpg" alt="Drone photo 6" onclick="openLightbox(this.src)">
+        <img src="assets/gallery7.jpg" alt="Drone photo 7" onclick="openLightbox(this.src)">
+        <img src="assets/gallery8.jpg" alt="Drone photo 8" onclick="openLightbox(this.src)">
+        <img src="assets/gallery9.jpg" alt="Drone photo 9" onclick="openLightbox(this.src)">
+      </div>
+
+      <h2 style="margin-top:40px;">Highlight Reels</h2>
+      <div class="grid3">
+        <video controls style="width:100%;border-radius:12px;"><source src="assets/highlight1.mov" type="video/mp4"></video>
+        <video controls style="width:100%;border-radius:12px;"><source src="assets/highlight2.mov" type="video/mp4"></video>
+        <video controls style="width:100%;border-radius:12px;"><source src="assets/highlight3.mp4" type="video/mp4"></video>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leadership -->
+  <section id="about" class="section">
+    <div class="container">
+      <h2>Leadership</h2>
+      <div class="bio card">
+        <img src="assets/bio.jpg" alt="Nathaniel Young" />
+        <div>
+          <h3>Nathaniel Young — Founder / Pilot-in-Command</h3>
+          <p>Nathaniel is a private pilot and Aviation Management student with hands-on experience in flight training and safety-first operations. He brings an aviator’s discipline to every mission: thorough pre-flight planning, clear go/no-go criteria, and professional communication with clients and bystanders.</p>
+          <p>Focus areas include real estate visuals, small-site inspections, and short promotional reels. Nathaniel partners with clients to understand the story they want to tell — then delivers clean, consistent visuals on time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section">
+    <div class="container">
+      <h2>Contact</h2>
+      <div class="card">
+        <p class="lead">Ready to plan a flight? Reach out with your location, timeframe, and goals.</p>
+        <p><strong>Email:</strong> <a href="mailto:pilot_n_young@icloud.com">pilot_n_young@icloud.com</a> &nbsp;•&nbsp; <strong>Phone:</strong> <a href="tel:(618)803-0020">(618)803-0020</a></p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <small>© 2025 N Vision Aerial Photography</small>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div id="lightbox" onclick="this.style.display='none'">
+    <img id="lightbox-img" src="">
+  </div>
+
+  <script>
+    function openLightbox(src) {
+      var lb = document.getElementById('lightbox');
+      var img = document.getElementById('lightbox-img');
+      img.src = src;
+      lb.style.display = 'flex';
+    }
+  </script>
+</body>
+</html>
