@@ -52,6 +52,32 @@
     .lightbox-img { width:100%; height:auto; display:block; border-radius:12px; box-shadow:0 12px 40px rgba(0,0,0,.4); }
     .lb-btn { position:absolute; top:12px; right:12px; width:42px; height:42px; border:0; border-radius:50%; background:rgba(0,0,0,.65); color:#fff; font-size:18px; cursor:pointer; }
   </style>
+   <!-- put this inside <head> on every page -->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+  :root { --maxw: 1100px; }
+  .container { max-width: var(--maxw); margin: 0 auto; padding: 0 16px; }
+
+  /* Header layout – same everywhere */
+  header { background:#fff; position:sticky; top:0; z-index:50; }
+  header .container {
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px; flex-wrap:wrap; padding:10px 0;
+  }
+  .logo { height:28px; display:block; }
+
+  header nav { display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+  header nav a { text-decoration:none; color:#0a66c2; font-weight:500; }
+  header nav a[aria-current="page"]
+
+  /* Mobile: stack nav under logo and center it (like Gallery) */
+  @media (max-width: 560px) {
+    header .container { justify-content:center; }
+    header nav { width:100%; justify-content:center; order:2; gap:14px; }
+    .logo { height:24px; }
+  }
+</style>
 </head>
 <body>
   <header>
