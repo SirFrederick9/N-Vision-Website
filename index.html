@@ -15,6 +15,33 @@
     main { max-width:1100px; margin:0 auto; padding:24px; }
     h2 { font-size:clamp(1.8rem,3vw,2.2rem); margin-bottom:16px; }
   </style>
+  <!-- put this inside <head> on every page -->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+  :root { --maxw: 1100px; }
+  .container { max-width: var(--maxw); margin: 0 auto; padding: 0 16px; }
+
+  /* Header layout – same everywhere */
+  header { background:#fff; position:sticky; top:0; z-index:50; }
+  header .container {
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px; flex-wrap:wrap; padding:10px 0;
+  }
+  .logo { height:28px; display:block; }
+
+  header nav { display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+  header nav a { text-decoration:none; color:#0a66c2; font-weight:500; }
+  header nav a[aria-current="page"] { text-decoration:underline; }
+
+  /* Mobile: stack nav under logo and center it (like Gallery) */
+  @media (max-width: 560px) {
+    header .container { justify-content:center; }
+    header nav { width:100%; justify-content:center; order:2; gap:14px; }
+    .logo { height:24px; }
+  }
+</style>
+
 </head>
 <body>
  <header>
