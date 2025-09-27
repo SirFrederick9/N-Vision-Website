@@ -1,53 +1,42 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>N Vision | Services</title>
-  <meta name="description" content="Aerial photo/video services for real estate, inspections, marketing content, and events across St. Louis & Metro East. Part 107 insured.">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>N Vision | Gallery</title>
   <style>
-    :root { --maxw: 1100px; --accent:#0a66c2; }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#111;line-height:1.6}
-    a{color:var(--accent);text-decoration:none}
-    header,main,footer{max-width:var(--maxw);margin:0 auto;padding:16px}
-    .brand{display:flex;align-items:center;gap:12px;justify-content:space-between}
-    nav a{margin-right:14px}
-    .hero{padding:12px 0 8px}
-    .hero h1{font-size:clamp(1.8rem,3vw,2.4rem);margin:.2rem 0 .5rem}
-    .sub{color:#555}
-    .grid{display:grid;gap:14px;grid-template-columns:1fr}
-    @media(min-width:720px){.grid{grid-template-columns:repeat(2,1fr)}}
-    .card{border:1px solid #eee;border-radius:14px;padding:16px;box-shadow:0 6px 24px rgba(0,0,0,.06)}
-    .card h3{margin:.2rem 0 .25rem}
-    ul{margin:.25rem 0 .5rem;padding-left:18px}
-    .pill{display:inline-block;background:#eef5ff;color:#124b9e;border:1px solid #d7e7ff;border-radius:999px;padding:4px 10px;font-size:.85rem;margin:2px 6px 2px 0}
-    .section{padding-top:20px}
-    .prices{display:grid;gap:14px;grid-template-columns:1fr}
-    @media(min-width:900px){.prices{grid-template-columns:repeat(3,1fr)}}
-    .price{border:1px solid #eee;border-radius:16px;padding:18px;text-align:left}
-    .price h4{margin:.2rem 0}
-    .price strong{font-size:1.6rem}
-    .badge{display:inline-block;background:#f6f6f6;border:1px solid #e7e7e7;border-radius:8px;padding:4px 8px;font-size:.8rem;margin-right:6px}
-    .steps{counter-reset:step}
-    .step{position:relative;border-left:3px solid #e8eef8;padding:10px 12px;margin:8px 0}
-    .step:before{counter-increment:step;content:counter(step);position:absolute;left:-18px;top:8px;background:#0a66c2;color:#fff;width:22px;height:22px;display:grid;place-items:center;border-radius:50%;font-size:.85rem}
-    .cta{display:inline-block;background:#0a66c2;color:#fff;padding:10px 14px;border-radius:10px}
-    .muted{color:#666}
-    footer small{color:#555}
+    body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:#fafafa; color:#111; }
+    header { background:#fff; border-bottom:1px solid #e5e7eb; padding:16px 24px; box-shadow:0 2px 6px rgba(0,0,0,0.04); }
+    header .container { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; }
+    .logo { height:40px; }
+    nav a { margin-left:16px; text-decoration:none; color:#0ea5e9; font-weight:600; }
+
+    main { max-width:1100px; margin:0 auto; padding:24px; }
+    h2 { font-size:clamp(1.8rem,3vw,2.2rem); margin-bottom:16px; }
+
+    /* --- 3x3 grid of uniform square thumbnails --- */
+    .grid { display:grid; gap:12px; grid-template-columns:repeat(3, 1fr); }
+    .thumb img { width:100%; display:block; aspect-ratio:1/1; object-fit:cover; border-radius:12px; }
+
+    /* --- Lightbox styles --- */
+    .backdrop { position:fixed; inset:0; background:rgba(0,0,0,.75); opacity:0; pointer-events:none; transition:opacity .2s ease; }
+    dialog#lightbox { border:0; padding:0; background:transparent; width:min(96vw, 1200px); }
+    dialog[open] + .backdrop { opacity:1; pointer-events:auto; }
+    .lightbox-inner { position:relative; }
+    .lightbox-img { width:100%; height:auto; display:block; border-radius:12px; box-shadow:0 12px 40px rgba(0,0,0,.4); }
+    .lb-btn { position:absolute; top:12px; right:12px; width:42px; height:42px; border:0; border-radius:50%; background:rgba(0,0,0,.65); color:#fff; font-size:18px; cursor:pointer; }
   </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="brand" style="display:flex;align-items:center;gap:16px;justify-content:space-between">
-      <a class="logo" href="/index.html" aria-label="N Vision home">
-        <img src="logo.png" alt="N Vision" style="height:36px" />
-      </a>
+  <header>
+    <div class="container">
+      <a href="index.html"><img src="logo.png" alt="N Vision logo" class="logo"></a>
       <nav>
-        <a href="/index.html">Home</a>
-        <a href="/services.html" aria-current="page">Services</a>
-        <a href="/gallery.html">Gallery</a>
-        <a class="cta" href="/index.html#contact">Get a Quote</a>
+        <a href="index.html">Home</a>
+        <a href="gallery.html" aria-current="page">Gallery</a>
+        <a href="services.html">Services</a>
+        <a href="#contact">Contact</a>
       </nav>
     </div>
   </header>
