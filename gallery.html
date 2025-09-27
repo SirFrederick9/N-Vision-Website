@@ -1,63 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>N Vision | Gallery</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #111;
-      padding: 1rem;
-    }
-    header nav a {
-      color: white;
-      margin-right: 1rem;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    h1 {
-      text-align: center;
-      margin: 1.5rem 0;
-    }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 10px;
-      padding: 20px;
-    }
-    .gallery img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
+    body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:#fafafa; color:#111; }
+    header { background:#fff; border-bottom:1px solid #e5e7eb; padding:16px 24px; box-shadow:0 2px 6px rgba(0,0,0,0.04); }
+    header .container { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; }
+    .logo { height:40px; }
+    nav a { margin-left:16px; text-decoration:none; color:#0ea5e9; font-weight:600; }
+
+    main { max-width:1100px; margin:0 auto; padding:24px; }
+    h2 { font-size:clamp(1.8rem,3vw,2.2rem); margin-bottom:16px; }
+
+    /* --- 3x3 grid of uniform square thumbnails --- */
+    .grid { display:grid; gap:12px; grid-template-columns:repeat(3, 1fr); }
+    .thumb img { width:100%; display:block; aspect-ratio:1/1; object-fit:cover; border-radius:12px; }
+
+    /* --- Lightbox styles --- */
+    .backdrop { position:fixed; inset:0; background:rgba(0,0,0,.75); opacity:0; pointer-events:none; transition:opacity .2s ease; }
+    dialog#lightbox { border:0; padding:0; background:transparent; width:min(96vw, 1200px); }
+    dialog[open] + .backdrop { opacity:1; pointer-events:auto; }
+    .lightbox-inner { position:relative; }
+    .lightbox-img { width:100%; height:auto; display:block; border-radius:12px; box-shadow:0 12px 40px rgba(0,0,0,.4); }
+    .lb-btn { position:absolute; top:12px; right:12px; width:42px; height:42px; border:0; border-radius:50%; background:rgba(0,0,0,.65); color:#fff; font-size:18px; cursor:pointer; }
   </style>
 </head>
 <body>
   <header>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="gallery.html">Gallery</a>
-    </nav>
+    <div class="container">
+      <a href="index.html"><img src="logo.png" alt="N Vision logo" class="logo"></a>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="gallery.html" aria-current="page">Gallery</a>
+        <a href="services.html">Services</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
   </header>
 
-  <h1>Gallery</h1>
+  <main>
+    <h2>Gallery</h2>
+    <p>Click any photo to view it full-size in its original aspect ratio.</p>
 
-  <div class="gallery">
-    <img src="gallery1.JPG" alt="Gallery Image 1">
-    <img src="gallery2.JPG" alt="Gallery Image 2">
-    <img src="gallery3.JPG" alt="Gallery Image 3">
-    <img src="gallery4.JPG" alt="Gallery Image 4">
-    <img src="gallery5.JPG" alt="Gallery Image 5">
-    <img src="gallery6.JPG" alt="Gallery Image 6">
-    <img src="gallery7.JPG" alt="Gallery Image 7">
-    <img src="gallery8.JPG" alt="Gallery Image 8">
-    <img src="gallery9.JPG" alt="Gallery Image 9">
-  </div>
+    <!-- 3x3 uniform thumbnail grid -->
+    <div class="grid" id="gallery" aria-label="Photo gallery">
+      <a class="thumb" href="gallery1.JPG"><img src="gallery1.JPG" alt="Drone photo 1"></a>
+      <a class="thumb" href="gallery2.JPG"><img src="gallery2.JPG" alt="Drone photo 2"></a>
+      <a class="thumb" href="gallery3.JPG"><img src="gallery3.JPG" alt="Drone photo 3"></a>
+      <a class="thumb" href="gallery4.JPG"><img src="gallery4.JPG" alt="Drone photo 4"></a>
+      <a class="thumb" href="gallery5.JPG"><img src="gallery5.JPG" alt="Drone photo 5"></a>
+      <a class="thumb" href="gallery6.JPG"><img src="gallery6.JPG" alt="Drone photo 6"></a>
+      <a class="thumb" href="gallery7.JPG"><img src="gallery7.JPG" alt="Drone photo 7"></a>
+      <a class="thumb" href="gallery8.JPG"><img src="gallery8.JPG" alt="Drone photo 8"></a>
+      <a class="thumb" href="gallery9.JPG"><img src="gallery9.JPG" alt="Drone photo 9"></a>
+    </div>
+  </main>
+
+  <!-- Lightbox that shows originals at their native aspect ratio -->
+  <dialog id="lightbox" aria-label="Expanded image preview">
+    <div class="lightbox-inner">
+      <img class="lightbox-img" id="lightbox-img" alt="">
+      <button class="lb-btn" id="lightbox-close" aria-label="Close">✕</button>
+    </div>
+  </dialog>
+  <div class="backdrop" id="backdrop"></div>
+
+  <script>
+    (function(){
+      const grid = document.getElementById('gallery');
+      const dlg = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      const closeBtn = document.getElementById('lightbox-close');
+      const backdrop = document.getElementById('backdrop');
+
+      function open(src, alt){
+        img.src = src; img.alt = alt || '';
+        if (!dlg.open) dlg.showModal();
+      }
+      function close(){ if (dlg.open) dlg.close(); img.removeAttribute('src'); }
+
+      grid.addEventListener('click', (e)=>{
+        const a = e.target.closest('a.thumb');
+        if(!a) return;
+        e.preventDefault();
+        open(a.getAttribute('href'), a.querySelector('img')?.alt);
+      });
+
+      closeBtn.addEventListener('click', close);
+      backdrop.addEventListener('click', close);
+      dlg.addEventListener('cancel', (e)=>{ e.preventDefault(); close(); });
+      window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') close(); });
+    })();
+  </script>
 </body>
 </html>
