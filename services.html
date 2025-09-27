@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>N Vision | Services</title>
+  <meta name="description" content="Aerial photo/video services for real estate, inspections, marketing content, and events across St. Louis & Metro East. Part 107 insured.">
+  <style>
+    :root { --maxw: 1100px; --accent:#0a66c2; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#111;line-height:1.6}
+    a{color:var(--accent);text-decoration:none}
+    header,main,footer{max-width:var(--maxw);margin:0 auto;padding:16px}
+    .brand{display:flex;align-items:center;gap:12px;justify-content:space-between}
+    nav a{margin-right:14px}
+    .hero{padding:12px 0 8px}
+    .hero h1{font-size:clamp(1.8rem,3vw,2.4rem);margin:.2rem 0 .5rem}
+    .sub{color:#555}
+    .grid{display:grid;gap:14px;grid-template-columns:1fr}
+    @media(min-width:720px){.grid{grid-template-columns:repeat(2,1fr)}}
+    .card{border:1px solid #eee;border-radius:14px;padding:16px;box-shadow:0 6px 24px rgba(0,0,0,.06)}
+    .card h3{margin:.2rem 0 .25rem}
+    ul{margin:.25rem 0 .5rem;padding-left:18px}
+    .pill{display:inline-block;background:#eef5ff;color:#124b9e;border:1px solid #d7e7ff;border-radius:999px;padding:4px 10px;font-size:.85rem;margin:2px 6px 2px 0}
+    .section{padding-top:20px}
+    .prices{display:grid;gap:14px;grid-template-columns:1fr}
+    @media(min-width:900px){.prices{grid-template-columns:repeat(3,1fr)}}
+    .price{border:1px solid #eee;border-radius:16px;padding:18px;text-align:left}
+    .price h4{margin:.2rem 0}
+    .price strong{font-size:1.6rem}
+    .badge{display:inline-block;background:#f6f6f6;border:1px solid #e7e7e7;border-radius:8px;padding:4px 8px;font-size:.8rem;margin-right:6px}
+    .steps{counter-reset:step}
+    .step{position:relative;border-left:3px solid #e8eef8;padding:10px 12px;margin:8px 0}
+    .step:before{counter-increment:step;content:counter(step);position:absolute;left:-18px;top:8px;background:#0a66c2;color:#fff;width:22px;height:22px;display:grid;place-items:center;border-radius:50%;font-size:.85rem}
+    .cta{display:inline-block;background:#0a66c2;color:#fff;padding:10px 14px;border-radius:10px}
+    .muted{color:#666}
+    footer small{color:#555}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand" style="display:flex;align-items:center;gap:16px;justify-content:space-between">
+      <a class="logo" href="/index.html" aria-label="N Vision home">
+        <img src="/logo.svg" alt="N Vision" style="height:36px" />
+      </a>
+      <nav>
+        <a href="/index.html">Home</a>
+        <a href="/services.html" aria-current="page">Services</a>
+        <a href="/gallery.html">Gallery</a>
+        <a class="cta" href="/index.html#contact">Get a Quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Aerial services built for results</h1>
+      <p class="sub">FAA Part 107 certified • Insured • St. Louis & Metro East. Clean edits, quick turnaround, and deliverables that help you sell listings, market events, and inspect safely.</p>
+      <p><a class="cta" href="/index.html#contact">Request a flight</a></p>
+    </section>
+
+    <section class="section">
+      <h2>What we deliver</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Photo</h3>
+          <ul>
+            <li>15–30 retouched stills per flight (RAW available on request)</li>
+            <li>Framing for MLS, web, and print</li>
+            <li>Color‑accurate, vertical & horizontal compositions</li>
+          </ul>
+          <span class="pill">4K workflow</span><span class="pill">RAW/LOG</span><span class="pill">Color‑managed</span>
+        </div>
+        <div class="card">
+          <h3>Video</h3>
+          <ul>
+            <li>30–60s highlight reels with music (licensed)</li>
+            <li>Cinematic moves: reveals, orbits, POIs, approaches</li>
+            <li>Vertical (Reels/Stories) or landscape (web)</li>
+          </ul>
+          <span class="pill">Stabilized</span><span class="pill">Caption‑ready</span><span class="pill">Social‑first</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Core services</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Real Estate</h3>
+          <p>Exterior stills, neighborhood context, and cinematic fly‑bys that help listings stand out and convert.</p>
+          <ul>
+            <li>Front/Rear elevations, lot lines (graphic add‑on)</li>
+            <li>Golden‑hour scheduling option</li>
+            <li>Agent branding placements</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Inspections</h3>
+          <p>Roof, façade, and site progress imagery to reduce ladder time and capture angles safely.</p>
+          <ul>
+            <li>Detail close‑ups & orthos on request</li>
+            <li>Date/location metadata provided</li>
+            <li>Private, shareable download links</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Marketing & Events</h3>
+          <p>Short promo edits and social‑ready stills for churches, schools, and community events.</p>
+          <ul>
+            <li>9:16, 1:1, and 16:9 exports</li>
+            <li>Music licensed for social</li>
+            <li>Next‑day teasers available</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Construction Progress</h3>
+          <p>Monthly aerial progress documentation with consistent viewpoints and side‑by‑side comparisons—no automated repeat paths required.</p>
+          <ul>
+            <li>Consistent viewpoints between visits (matched by pilot)</li>
+            <li>Side‑by‑side progress bundles</li>
+            <li>Optional map snapshots with manual pins/notes (Google Earth/Maps exports)</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Simple pricing</h2>
+      <div class="prices">
+        <div class="price">
+          <h4>Starter</h4>
+          <p class="muted">Best for small listings & quick socials</p>
+          <p><strong>$149</strong> <span class="muted">/ flight</span></p>
+          <ul>
+            <li>10–15 edited photos</li>
+            <li>Web‑ready download</li>
+            <li>48‑hour turn</li>
+          </ul>
+        </div>
+        <div class="price">
+          <h4>Standard</h4>
+          <p class="muted">Balanced photo + short video</p>
+          <p><strong>$249</strong> <span class="muted">/ flight</span></p>
+          <ul>
+            <li>15–30 edited photos</li>
+            <li>30–45s highlight reel</li>
+            <li>48‑hour turn</li>
+          </ul>
+        </div>
+        <div class="price">
+          <h4>Pro</h4>
+          <p class="muted">For premium listings & campaigns</p>
+          <p><strong>$399</strong> <span class="muted">/ flight</span></p>
+          <ul>
+            <li>30+ edited photos</li>
+            <li>60s reel + vertical cut</li>
+            <li>Next‑day preview</li>
+          </ul>
+        </div>
+      </div>
+      <p class="muted">Need something different? Ask for a custom quote—roof inspections, churches, schools, and nonprofits often qualify for tailored pricing.</p>
+    </section>
+
+    <section class="section">
+      <h2>How it works</h2>
+      <div class="steps">
+        <div class="step"><strong>Plan the mission.</strong> Share the address, desired look, and any restrictions. We confirm airspace & weather.</div>
+        <div class="step"><strong>Fly safe.</strong> Part 107 checklist, NOTAMs, and on‑site brief. Cones & vest available for public areas.</div>
+        <div class="step"><strong>Edit & deliver.</strong> Clean color, gentle sharpening, and export sets for web/MLS/social. Private download link.</div>
+      </div>
+      <p>
+        <span class="badge">FAA Part 107</span>
+        <span class="badge">Insured</span>
+        <span class="badge">4K/RAW workflow</span>
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Service area</h2>
+      <p>St. Louis & Metro East (IL). Travel outside the area is available—just ask when you book.</p>
+      <p><a class="cta" href="/index.html#contact">Book a flight</a></p>
+    </section>
+
+    <section class="section">
+      <h2>FAQs</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Are you licensed and insured?</h3>
+          <p>Yes—flights are conducted under FAA Part 107 with liability coverage. COI available on request.</p>
+        </div>
+        <div class="card">
+          <h3>What’s the usual turnaround?</h3>
+          <p>Photos within 48 hours, video within 2–4 days. Same‑day teasers are available.</p>
+        </div>
+        <div class="card">
+          <h3>Bad weather?</h3>
+          <p>No worries—we’ll reschedule. Safety and quality come first.</p>
+        </div>
+        <div class="card">
+          <h3>How do I receive files?</h3>
+          <p>Private download links with web‑ready and high‑res sets. RAW/LOG available upon request.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <small>© <span id="y"></span> N Vision Aerial Photography • <a href="/index.html#contact">Contact</a></small>
+  </footer>
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>
