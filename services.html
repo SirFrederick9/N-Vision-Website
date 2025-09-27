@@ -44,10 +44,6 @@
     main { max-width:1100px; margin:0 auto; padding:24px; }
     h2 { font-size:clamp(1.8rem,3vw,2.2rem); margin-bottom:16px; }
 
-    /* --- 3x3 grid of uniform square thumbnails --- */
-    .grid { display:grid; gap:12px; grid-template-columns:repeat(3, 1fr); }
-    .thumb img { width:100%; display:block; aspect-ratio:1/1; object-fit:cover; border-radius:12px; }
-
     /* --- Lightbox styles --- */
     .backdrop { position:fixed; inset:0; background:rgba(0,0,0,.75); opacity:0; pointer-events:none; transition:opacity .2s ease; }
     dialog#lightbox { border:0; padding:0; background:transparent; width:min(96vw, 1200px); }
