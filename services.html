@@ -35,6 +35,26 @@
     .cta{display:inline-block;background:#0a66c2;color:#fff;padding:10px 14px;border-radius:10px}
     .muted{color:#666}
     footer small{color:#555}
+    body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:#fafafa; color:#111; }
+    header { background:#fff; border-bottom:1px solid #e5e7eb; padding:16px 24px; box-shadow:0 2px 6px rgba(0,0,0,0.04); }
+    header .container { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; }
+    .logo { height:40px; }
+    nav a { margin-left:16px; text-decoration:none; color:#0ea5e9; font-weight:600; }
+
+    main { max-width:1100px; margin:0 auto; padding:24px; }
+    h2 { font-size:clamp(1.8rem,3vw,2.2rem); margin-bottom:16px; }
+
+    /* --- 3x3 grid of uniform square thumbnails --- */
+    .grid { display:grid; gap:12px; grid-template-columns:repeat(3, 1fr); }
+    .thumb img { width:100%; display:block; aspect-ratio:1/1; object-fit:cover; border-radius:12px; }
+
+    /* --- Lightbox styles --- */
+    .backdrop { position:fixed; inset:0; background:rgba(0,0,0,.75); opacity:0; pointer-events:none; transition:opacity .2s ease; }
+    dialog#lightbox { border:0; padding:0; background:transparent; width:min(96vw, 1200px); }
+    dialog[open] + .backdrop { opacity:1; pointer-events:auto; }
+    .lightbox-inner { position:relative; }
+    .lightbox-img { width:100%; height:auto; display:block; border-radius:12px; box-shadow:0 12px 40px rgba(0,0,0,.4); }
+    .lb-btn { position:absolute; top:12px; right:12px; width:42px; height:42px; border:0; border-radius:50%; background:rgba(0,0,0,.65); color:#fff; font-size:18px; cursor:pointer; }
   </style>
 </head>
 <body>
