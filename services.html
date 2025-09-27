@@ -4,95 +4,111 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>N Vision | Services</title>
-  <meta name="description" content="Aerial photo/video services for real estate, inspections, marketing content, and events across St. Louis & Metro East. Part 107 insured.">
+  <meta name="description" content="Aerial photography & videography services for real estate, inspections, and marketing in St. Louis & Metro East." />
+
+  <!-- Unified styles shared across pages -->
   <style>
-   <meta name="viewport" content="width=device-width, initial-scale=1" />
-<style>
-  :root { --maxw: 1100px; }
-  .container { max-width: var(--maxw); margin: 0 auto; padding: 0 16px; }
+  :root { --maxw: 1100px; --brand:#0a66c2; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.6;color:#111;background:#f7f7f7}
+  .container{max-width:var(--maxw);margin:0 auto;padding:0 16px}
+  .section{padding:18px 0}
 
-  /* Unified header (matches Gallery) */
-  header { background:#fff; position:sticky; top:0; z-index:50; }
-  header .container {
-    display:flex; align-items:center; justify-content:space-between;
-    gap:12px; flex-wrap:wrap; padding:10px 0;
-  }
-  .logo { height:28px; display:block; }
-  header nav { display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
-  header nav a { text-decoration:none; color:#0a66c2; font-weight:500; }
-  header nav a[aria-current="page"] { text-decoration:underline; }
-
-  /* Mobile: stack & center nav like Gallery */
+  /* Header (matches Gallery) */
+  header{background:#fff;position:sticky;top:0;z-index:50;box-shadow:0 1px 0 rgba(0,0,0,.06)}
+  header .container{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 0}
+  .logo{height:28px;display:block}
+  header nav{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  header nav a{color:var(--brand);text-decoration:none;font-weight:500}
+  header nav a[aria-current="page"]{font-weight:700}
   @media (max-width:560px){
-    header .container { justify-content:center; }
-    header nav { width:100%; justify-content:center; order:2; gap:14px; }
-    .logo { height:24px; }
+    header .container{justify-content:center}
+    header nav{width:100%;justify-content:center;order:2;gap:14px}
+    .logo{height:24px}
   }
 
-  /* Page basics */
-  body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:#111; line-height:1.6; }
-  h1 { font-size:clamp(1.8rem,3.2vw,2.4rem); margin: 1rem 0 .75rem; }
-  .section { padding: 18px 0; }
-  .card { background:#fff; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.06); }
-  .card-body { padding:20px; }
-  .grid { display:grid; gap:14px; }
-  @media (min-width:700px){ .grid-2 { grid-template-columns: 1fr 1fr; } }
-  .tagset { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
-  .tag { background:#eef6ff; color:#0a66c2; border:1px solid #d7e7ff; padding:4px 8px; border-radius:999px; font-size:.85rem; }
-  .btn { display:inline-block; background:#0a66c2; color:#fff; text-decoration:none; padding:10px 16px; border-radius:8px; font-weight:600; }
-  ul { margin: .5rem 0 .25rem 1.25rem; }
-</style>
+  /* Cards / grids */
+  .card{background:#fff;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+  .card-body{padding:20px}
+  .grid{display:grid;gap:14px}
+  .grid-2{grid-template-columns:1fr}
+  @media(min-width:700px){.grid-2{grid-template-columns:1fr 1fr}}
 
+  /* Typo */
+  h1{font-size:clamp(1.8rem,3.2vw,2.4rem);margin:1rem 0 .75rem}
+  h2{font-size:clamp(1.4rem,2.6vw,1.8rem);margin:.5rem 0 .5rem}
+  h3{margin:.25rem 0 .25rem}
+
+  .btn{display:inline-block;background:var(--brand);color:#fff;text-decoration:none;padding:10px 16px;border-radius:8px;font-weight:600}
+  .tagset{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .tag{background:#eef6ff;color:var(--brand);border:1px solid #d7e7ff;padding:4px 8px;border-radius:999px;font-size:.85rem}
+
+  /* Contact box form styles */
+  form.contact-grid{display:grid;gap:10px;grid-template-columns:1fr}
+  @media(min-width:700px){form.contact-grid{grid-template-columns:1fr 1fr}}
+  .input, textarea{width:100%; padding:10px 12px; border:1px solid #e2e8f0; border-radius:8px; font:inherit}
+  textarea{min-height:120px;}
+
+  footer{padding:28px 0;color:#555}
 </style>
 </head>
 <body>
- <header>
-  <div class="container">
-    <a href="index.html"><img src="logo.png" alt="N Vision logo" class="logo"></a>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="gallery.html" aria-current="page">Gallery</a>
-      <a href="services.html">Services</a>
-      <a href="#contact">Contact</a> <!-- note: index.html#contact so it works from other pages -->
-    </nav>
-  </div>
-</header>
+  <header>
+    <div class="container">
+      <a href="index.html"><img src="logo.png" alt="N Vision logo" class="logo"></a>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="services.html" aria-current="page">Services</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-  <main>
-    <section class="hero">
+  <main class="container">
+    <section class="section">
       <h1>Aerial services built for results</h1>
-      <p class="sub">FAA Part 107 certified • Insured • St. Louis & Metro East. Clean edits, quick turnaround, and deliverables that help you sell listings, market events, and inspect safely.</p>
-      <p><a class="cta" href="/index.html#contact">Request a flight</a></p>
+      <p>FAA Part 107 certified • Insured • St. Louis &amp; Metro East. Clean edits, quick turnaround, and deliverables that help you sell listings, market events, and inspect safely.</p>
+      <p><a class="btn" href="#contact">Request a flight</a></p>
     </section>
 
     <section class="section">
       <h2>What we deliver</h2>
-      <div class="grid">
-        <div class="card">
+      <div class="grid grid-2">
+        <div class="card"><div class="card-body">
           <h3>Photo</h3>
           <ul>
             <li>15–30 retouched stills per flight (RAW available on request)</li>
             <li>Framing for MLS, web, and print</li>
-            <li>Color‑accurate, vertical & horizontal compositions</li>
+            <li>Color-accurate, vertical &amp; horizontal compositions</li>
           </ul>
-          <span class="pill">4K workflow</span><span class="pill">RAW/LOG</span><span class="pill">Color‑managed</span>
-        </div>
-        <div class="card">
+          <div class="tagset">
+            <span class="tag">4K workflow</span>
+            <span class="tag">RAW/LOG</span>
+            <span class="tag">Color‑managed</span>
+          </div>
+        </div></div>
+
+        <div class="card"><div class="card-body">
           <h3>Video</h3>
           <ul>
-            <li>30–60s highlight reels with music (licensed)</li>
+            <li>20–30s highlight reels with licensed music</li>
             <li>Cinematic moves: reveals, orbits, POIs, approaches</li>
             <li>Vertical (Reels/Stories) or landscape (web)</li>
           </ul>
-          <span class="pill">Stabilized</span><span class="pill">Caption‑ready</span><span class="pill">Social‑first</span>
-        </div>
+          <div class="tagset">
+            <span class="tag">Stabilized</span>
+            <span class="tag">Caption‑ready</span>
+            <span class="tag">Social‑first</span>
+          </div>
+        </div></div>
       </div>
     </section>
 
     <section class="section">
       <h2>Core services</h2>
-      <div class="grid">
-        <article class="card">
+      <div class="grid grid-2">
+        <div class="card"><div class="card-body">
           <h3>Real Estate</h3>
           <p>Exterior stills, neighborhood context, and cinematic fly‑bys that help listings stand out and convert.</p>
           <ul>
@@ -100,133 +116,63 @@
             <li>Golden‑hour scheduling option</li>
             <li>Agent branding placements</li>
           </ul>
-        </article>
-        <article class="card">
+        </div></div>
+
+        <div class="card"><div class="card-body">
           <h3>Inspections</h3>
           <p>Roof, façade, and site progress imagery to reduce ladder time and capture angles safely.</p>
           <ul>
-            <li>Detail close‑ups & orthos on request</li>
+            <li>Detail close‑ups &amp; orthos on request</li>
             <li>Date/location metadata provided</li>
             <li>Private, shareable download links</li>
           </ul>
-        </article>
-        <article class="card">
-          <h3>Marketing & Events</h3>
-          <p>Short promo edits and social‑ready stills for churches, schools, and community events.</p>
-          <ul>
-            <li>9:16, 1:1, and 16:9 exports</li>
-            <li>Music licensed for social</li>
-            <li>Next‑day teasers available</li>
-          </ul>
-        </article>
-        <article class="card">
-          <h3>Construction Progress</h3>
-          <p>Monthly aerial progress documentation with consistent viewpoints and side‑by‑side comparisons—no automated repeat paths required.</p>
-          <ul>
-            <li>Consistent viewpoints between visits (matched by pilot)</li>
-            <li>Side‑by‑side progress bundles</li>
-            <li>Optional map snapshots with manual pins/notes (Google Earth/Maps exports)</li>
-          </ul>
-        </article>
+        </div></div>
       </div>
     </section>
 
     <section class="section">
-      <h2>Simple pricing</h2>
-      <div class="prices">
-        <div class="price">
-          <h4>Starter</h4>
-          <p class="muted">Best for small listings & quick socials</p>
-          <p><strong>$100</strong> <span class="muted">/ flight</span></p>
-          <ul>
-            <li>10–15 edited photos</li>
-            <li>Web‑ready download</li>
-            <li>48‑hour turn</li>
-          </ul>
-        </div>
-        <div class="price">
-          <h4>Standard</h4>
-          <p class="muted">Balanced photo + short video</p>
-          <p><strong>$200</strong> <span class="muted">/ flight</span></p>
-          <ul>
-            <li>15–30 edited photos</li>
-            <li>30–45s highlight reel</li>
-            <li>48‑hour turn</li>
-          </ul>
-        </div>
-        <div class="price">
-          <h4>Pro</h4>
-          <p class="muted">For premium listings & campaigns</p>
-          <p><strong>$300</strong> <span class="muted">/ flight</span></p>
-          <ul>
-            <li>30+ edited photos</li>
-            <li>60s reel + vertical cut</li>
-            <li>Next‑day preview</li>
-          </ul>
-        </div>
-      </div>
-      <p class="muted">Need something different? Ask for a custom quote—roof inspections, churches, schools, and nonprofits often qualify for tailored pricing.</p>
-    </section>
-
-    <section class="section">
-      <h2>How it works</h2>
-      <div class="steps">
-        <div class="step"><strong>Plan the mission.</strong> Share the address, desired look, and any restrictions. We confirm airspace & weather.</div>
-        <div class="step"><strong>Fly safe.</strong> Part 107 checklist, NOTAMs, and on‑site brief.</div>
-        <div class="step"><strong>Edit & deliver.</strong> Clean color, gentle sharpening, and export sets for web/MLS/social. Private download link.</div>
-      </div>
-      <p>
-        <span class="badge">FAA Part 107</span>
-        <span class="badge">Insured</span>
-        <span class="badge">4K/RAW workflow</span>
-      </p>
-    </section>
-
-    <section class="section">
-      <h2>Service area</h2>
-      <p>St. Louis & Metro East (IL). Travel outside the area is available—just ask when you book.</p>
-      <p><a class="cta" href="/index.html#contact">Book a flight</a></p>
-    </section>
-
-    <section class="section">
-      <h2>FAQs</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>Are you licensed and insured?</h3>
-          <p>Yes—flights are conducted under FAA Part 107 with liability coverage. COI available on request.</p>
-        </div>
-        <div class="card">
-          <h3>What’s the usual turnaround?</h3>
-          <p>Photos within 48 hours, video within 2–4 days. Same‑day teasers are available.</p>
-        </div>
-        <div class="card">
-          <h3>Bad weather?</h3>
-          <p>No worries—we’ll reschedule. Safety and quality come first.</p>
-        </div>
-        <div class="card">
-          <h3>How do I receive files?</h3>
-          <p>Private download links with web‑ready and high‑res sets. RAW/LOG available upon request.</p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-   <!-- 8) Contact -->
-    <section id="contact">
-      <div class="inner">
-        <h2>Contact</h2>
-        <p>St. Louis · Metro East · Insured · Part 107</p>
-        <p>Email: <a href="mailto:pilot_n_young@icloud.com">pilot.n.young@icloud.com</a> · Phone: <a href="tel:+16188030020">(618) 803-0020</a></p>
+      <div class="card"><div class="card-body" style="display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap">
         <div>
-          <a class="btn btn-social" href="https://instagram.com/n_vision_aerial_photography" target="_blank" rel="noopener">Instagram</a>
-          <a class="btn btn-social" href="https://www.linkedin.com/in/nathaniel-young-900b71300?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" rel="noopener">LinkedIn</a>
+          <h3 style="margin-top:0">Ready to plan a flight?</h3>
+          <p style="margin:.25rem 0 0">Tell me your location, timeframe, and goals. I’ll follow up with options and a quote.</p>
+        </div>
+        <a class="btn" href="#contact">Get a free quote</a>
+      </div></div>
+    </section>
+    <!-- Contact info box -->
+  <section id="contact" class="section">
+    <div class="card">
+      <div class="card-body">
+        <h2 style="margin-top:0">Contact</h2>
+        <p>Based in St. Louis &amp; Metro East. Tell me about your project and timeline—I'll follow up with options and a quote.</p>
+        <div class="grid grid-2" style="align-items:start">
+          <div>
+            <ul style="margin:.5rem 0 0 1.1rem">
+              <li>Email: <a href="mailto:your@email.com">your@email.com</a></li>
+              <li>Phone: <a href="tel:+1">+1 (xxx) xxx‑xxxx</a></li>
+              <li>Hours: Mon–Sat, by appointment</li>
+            </ul>
+          </div>
+          <div>
+            <form name="contact" method="POST" data-netlify="true" class="contact-grid">
+              <input type="hidden" name="form-name" value="contact" />
+              <input class="input" type="text" name="name" placeholder="Your name" required>
+              <input class="input" type="email" name="email" placeholder="Your email" required>
+              <textarea name="message" placeholder="Project location, dates, and goals" required></textarea>
+              <button class="btn" type="submit" style="justify-self:start">Send</button>
+            </form>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
+</main>
 
   <footer>
-    <small>© <span id="y"></span> N Vision Aerial Photography • <a href="/index.html#contact">Contact</a></small>
+    <div class="container">
+      <small>© <span id="y"></span> N Vision Aerial Photography. All rights reserved.</small>
+    </div>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
   </footer>
-  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
 </body>
 </html>
