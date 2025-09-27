@@ -37,6 +37,13 @@
     footer small{color:#555}
     body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:#fafafa; color:#111; }
     
+  <!-- put this inside <head> on every page -->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+  :root { --maxw: 1100px; }
+  .container { max-width: var(--maxw); margin: 0 auto; padding: 0 16px; }
+
   /* Header layout – same everywhere */
   header { background:#fff; position:sticky; top:0; z-index:50; }
   header .container {
@@ -47,14 +54,15 @@
 
   header nav { display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
   header nav a { text-decoration:none; color:#0a66c2; font-weight:500; }
-  header nav a[aria-current="page"]
- /* Mobile: stack nav under logo and center it (like Gallery) */
+  header nav a[aria-current="page"] { text-decoration:underline; }
+
+  /* Mobile: stack nav under logo and center it (like Gallery) */
   @media (max-width: 560px) {
     header .container { justify-content:center; }
     header nav { width:100%; justify-content:center; order:2; gap:14px; }
     .logo { height:24px; }
   }
-
+</style>
 </style>
 </head>
 <body>
