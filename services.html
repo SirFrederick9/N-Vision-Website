@@ -48,7 +48,12 @@
   header nav { display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
   header nav a { text-decoration:none; color:#0a66c2; font-weight:500; }
   header nav a[aria-current="page"]
-
+ /* Mobile: stack nav under logo and center it (like Gallery) */
+  @media (max-width: 560px) {
+    header .container { justify-content:center; }
+    header nav { width:100%; justify-content:center; order:2; gap:14px; }
+    .logo { height:24px; }
+  }
 
 </style>
 </head>
