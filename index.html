@@ -16,7 +16,7 @@
       </div>
       <nav>
         <a href="services.html">Services</a>
-        <a href="https://www.instagram.com/n_vision_aerial_photography?igsh=MWlhZ3VsNjE3dTFxeg%3D%3D&utm_source=qr" target="_blank" rel="noopener">Gallery</a>
+        <a href="gallery.html" target="_blank" rel="noopener">Gallery</a>
         <a href="#about">Leadership</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -49,86 +49,181 @@
   </div>
 </section>
 
-<section class="section">
-  <div class="container">
-    <h2>Professional drone visuals, tailored for your project.</h2>
-    <p>We deliver sharp aerial imagery and quick-turn edits that make your listings, inspections, and events stand out.</p>
-    <div class="what-we-deliver">
-      <ul>
-        <li><strong>15–20 edited stills</strong> per flight (retouched for clarity & color)</li>
-        <li><strong>Optional 20–30 sec highlight reel</strong> (social-ready)</li>
-        <li><strong>Fast turnaround</strong> with web + print-ready files</li>
-      </ul>
-    </div>
-  </div>
-</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>N Vision | Sections 2–8 Preview</title>
+  <style>
+    :root { --maxw: 1100px; --muted:#6b7280; --brand:#0ea5e9; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.6;color:#0f172a;background:#fafafa}
+    .container{max-width:var(--maxw);margin:0 auto;padding:24px}
+    h2{font-size:clamp(1.4rem,2.6vw,2rem);margin:0 0 8px 0}
+    p{margin:0 0 16px 0;color:#111827}
+    .muted{color:var(--muted)}
+    .btn{display:inline-block;background:var(--brand);color:#fff;text-decoration:none;padding:10px 14px;border-radius:10px;font-weight:600}
+    .btn-social{margin-right:8px;margin-top:8px}
 
-  <!-- Services -->
-  <section id="services" class="section">
-    <div class="container">
-      <h2>Services</h2>
-      <p class="lead">A focused menu built around high-value aerial use-cases.</p>
-      <div class="grid3">
-        <div class="card">
-          <h3>Real Estate</h3>
-          <p>Aerial exteriors, neighborhood context, and sweeping approach shots that help listings stand out.</p>
-        </div>
-        <div class="card">
-          <h3>Inspections</h3>
-          <p>Roof, facade, and site progress imagery to reduce ladder time and capture angles safely.</p>
-        </div>
-        <div class="card">
-          <h3>Marketing & Events</h3>
-          <p>Short promo videos and social-ready stills for brands, churches, and community events.</p>
+    /* Section chrome */
+    section{background:#fff;border-radius:16px;box-shadow:0 10px 28px rgba(2,8,23,.06);margin:16px 0}
+    section>.inner{padding:24px}
+
+    /* 3-up services */
+    .cards{display:grid;grid-template-columns:1fr;gap:14px}
+    @media(min-width:700px){.cards{grid-template-columns:repeat(3,1fr)}}
+    .card{border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;background:#fff}
+    .card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+    .card .pad{padding:14px}
+    .card h3{margin:0 0 6px 0;font-size:1.05rem}
+    .card p{margin:0;color:#374151}
+
+    /* What we deliver bullets */
+    .bullets{display:grid;gap:8px;margin-top:8px}
+    .bullets li{list-style: none; padding-left: 28px; position: relative}
+    .bullets li:before{content:"✓";position:absolute;left:0;top:0;color:#16a34a;font-weight:800}
+
+    /* Work preview grid */
+    .grid{display:grid;gap:10px;grid-template-columns:repeat(2,1fr)}
+    @media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}}
+    .grid img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;display:block}
+
+    /* About */
+    .about{display:grid;gap:16px;align-items:center;grid-template-columns:1fr}
+    @media(min-width:800px){.about{grid-template-columns:280px 1fr}}
+    .about img{width:100%;border-radius:14px;object-fit:cover;aspect-ratio:1/1}
+
+    /* Testimonials */
+    #testimonials { display:none; }
+    .quotes{display:grid;gap:14px}
+    @media(min-width:800px){.quotes{grid-template-columns:1fr 1fr}}
+    blockquote{margin:0;padding:14px;border:1px solid #e5e7eb;border-radius:12px;background:#fcfcff}
+    blockquote footer{margin-top:8px;color:#6b7280}
+
+    /* CTA */
+    .cta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .cta h3{margin:0}
+
+    footer{padding:24px 0;color:#6b7280}
+  </style>
+</head>
+<body>
+  <main class="container">
+
+    <!-- 2) Value Proposition / What we deliver -->
+    <section id="value">
+      <div class="inner">
+        <h2>Professional drone visuals, tailored for your project.</h2>
+        <p class="muted">Sharp aerial imagery and quick-turn edits that make listings, inspections, and events stand out.</p>
+        <ul class="bullets">
+          <li><strong>15–20 edited stills</strong> per flight (retouched for clarity & color)</li>
+          <li><strong>Optional 20–30 sec highlight reel</strong> (social-ready)</li>
+          <li><strong>Fast turnaround</strong> with both web + print-ready files</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 3) Services Overview -->
+    <section id="services">
+      <div class="inner">
+        <h2>Services</h2>
+        <p class="muted">A focused menu built around high-value aerial use-cases.</p>
+        <div class="cards">
+          <article class="card">
+            <img src="gallery1.JPG" alt="Real estate front elevation" />
+            <div class="pad">
+              <h3>Real Estate</h3>
+              <p>Aerial exteriors, neighborhood context, and approach shots that help listings stand out.</p>
+            </div>
+          </article>
+          <article class="card">
+            <img src="gallery4.JPG" alt="Roof inspection detail" />
+            <div class="pad">
+              <h3>Inspections</h3>
+              <p>Roof, facade, and site progress imagery to reduce ladder time and capture angles safely.</p>
+            </div>
+          </article>
+          <article class="card">
+            <img src="gallery6.JPG" alt="Outdoor event aerial" />
+            <div class="pad">
+              <h3>Marketing & Events</h3>
+              <p>Short promo videos and social-ready stills for brands, churches, and community events.</p>
+            </div>
+          </article>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Leadership -->
-  <section id="about" class="section">
-    <div class="container">
-      <h2>Leadership</h2>
-      <div class="bio card">
-        <img src="bio.jpg" alt="Nathaniel Young" />
+    <!-- 4) Work preview / Gallery teaser -->
+    <section id="work">
+      <div class="inner">
+        <h2>Recent work</h2>
+        <div class="grid" aria-label="Recent photos">
+          <img src="gallery1.JPG" alt="Aerial 1">
+          <img src="gallery2.JPG" alt="Aerial 2">
+          <img src="gallery3.JPG" alt="Aerial 3">
+          <img src="gallery4.JPG" alt="Aerial 4">
+        </div>
+        <p style="margin-top:12px"><a class="btn" href="gallery.html">View full gallery</a> <span class="muted" style="margin-left:8px">or follow <a href="https://instagram.com/n_vision_aerial_photography" target="_blank" rel="noopener">Instagram</a></span></p>
+      </div>
+    </section>
+
+    <!-- 5) About / Credibility -->
+    <section id="about">
+      <div class="inner about">
+        <img src="bio.jpg" alt="Nathaniel Young portrait" />
         <div>
-          <h3>Nathaniel Young — Founder / Pilot-in-Command</h3>
-          <p>Nathaniel is a private pilot and Aviation Management student with hands-on experience in flight training and safety-first operations. He brings an aviator’s discipline to every mission: thorough pre-flight planning, clear go/no-go criteria, and professional communication with clients and bystanders.</p>
-          <p>Focus areas include real estate visuals, small-site inspections, and short promotional reels. Nathaniel partners with clients to understand the story they want to tell — then delivers clean, consistent visuals on time.</p>
+          <h2>Leadership</h2>
+          <h3 style="margin:6px 0 6px 0">Nathaniel Young — Founder / Pilot-in-Command</h3>
+          <p>Nathaniel is a private pilot and Aviation Management student with hands-on experience in flight training and safety-first operations. He brings an aviator’s discipline to every mission through clear go/no-go criteria, thorough pre-flight planning, and professional client communication.</p>
+          <p class="muted" style="margin-top:8px">Focus areas include real estate visuals, small-site inspections, and short promotional reels.</p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Contact -->
-  <section id="contact" class="section">
-    <div class="container">
-      <h2>Contact</h2>
-      <div class="card">
-        <p class="lead">Ready to plan a flight? Reach out with your location, timeframe, and goals.</p>
-        <p><strong>Email:</strong> <a href="mailto:pilot_n_young@icloud.com">pilot_n_young@icloud.com</a> &nbsp;•&nbsp; <strong>Phone:</strong> <a href="tel:(618)803-0020">(618)803-0020</a></p>
+    <!-- 6) Testimonials / Social proof (starter placeholders) -->
+    <section id="testimonials">
+      <div class="inner">
+        <h2>What clients say</h2>
+        <div class="quotes">
+          <blockquote>
+            “The aerials made our listing pop and we had showings lined up the same day.”
+            <footer>— Local Realtor</footer>
+          </blockquote>
+          <blockquote>
+            “Fast turnaround and super clear roof detail shots for our inspection report.”
+            <footer>— Roofing Contractor</footer>
+          </blockquote>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <footer class="footer">
-    <div class="container">
-      <small>© 2025 N Vision Aerial Photography</small>
-    </div>
-  </footer>
+    <!-- 7) Call to Action -->
+    <section id="cta">
+      <div class="inner cta">
+        <h3>Ready to plan a flight?</h3>
+        <a class="btn" href="mailto:pilot.n.young@icloud.com?subject=N%20Vision%20Quote">Get a free quote</a>
+      </div>
+    </section>
 
-  <!-- Lightbox -->
-  <div id="lightbox" onclick="this.style.display='none'">
-    <img id="lightbox-img" src="">
-  </div>
+    <!-- 8) Contact -->
+    <section id="contact">
+      <div class="inner">
+        <h2>Contact</h2>
+        <p>St. Louis · Metro East · Insured · Part 107</p>
+        <p>Email: <a href="mailto:pilot.n.young@icloud.com">pilot.n.young@icloud.com</a> · Phone: <a href="tel:+16188030020">(618) 803-0020</a></p>
+        <div>
+          <a class="btn btn-social" href="https://instagram.com/n_vision_aerial_photography" target="_blank" rel="noopener">Instagram</a>
+          <a class="btn btn-social" href="https://linkedin.com/in/YOUR_PROFILE" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </section>
 
-  <script>
-    function openLightbox(src) {
-      var lb = document.getElementById('lightbox');
-      var img = document.getElementById('lightbox-img');
-      img.src = src;
-      lb.style.display = 'flex';
-    }
-  </script>
+    <footer>
+      <small>© <span id="y"></span> N Vision Aerial Photography</small>
+    </footer>
+  </main>
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
 </body>
 </html>
