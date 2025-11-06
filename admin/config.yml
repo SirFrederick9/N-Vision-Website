@@ -1,31 +1,73 @@
 backend:
   name: github
-  repo: SirFrederick9/N-Vision-Website # MUST be your repository name
-  branch: main # Default branch for your content (typically 'main' or 'master')
+  repo: SirFrederickG/N-Vision-Website # Replace with your repo if different
+  branch: main
+  base_url: https://api.netlify.com # Required for GitHub OAuth with Netlify Git Gateway
 
-media_folder: "static/img" # Folder where all uploaded images will be stored
-public_folder: "/img"      # The folder in your site where images are displayed from
+media_folder: "assets/img/uploads"
+public_folder: "/assets/img/uploads"
 
-# --- COLLECTIONS --- (Example content structure)
 collections:
+  # Collection for general pages (like home, services)
   - name: "pages"
-    label: "Pages"
-    folder: "content/pages" 
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Body", name: "body", widget: "markdown"}
-      - {label: "Template", name: "template", widget: "hidden", default: "page"}
+    label: "Website Pages"
+    files:
+      - label: "Home Page"
+        name: "home"
+        file: "content/pages/home.md"
+        fields:
+          - label: "Title"
+            name: "title"
+            widget: "string"
+          - label: "Body Content"
+            name: "body"
+            widget: "markdown"
 
-  - name: "blog"
-    label: "Blog Posts"
-    folder: "content/blog"
+  # Collection for Portfolio Images (to replace hardcoded links)
+  - name: "portfolio_photos"
+    label: "Portfolio Photos"
+    folder: "content/portfolio" # Where the data files will live
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    slug: "{{title}}"
     fields:
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Publish Date", name: "date", widget: "datetime"}
-      - {label: "Body", name: "body", widget: "markdown"}
-      - {label: "Tags", name: "tags", widget: "list", required: false}
-      - {label: "Template", name: "template", widget: "hidden", default: "post"}
+      - label: "Photo Title"
+        name: "title"
+        widget: "string"
+        required: true
+      - label: "Photo"
+        name: "image"
+        widget: "image"
+        choose_url: false # Ensures image is uploaded to GitHub/Netlify LFS (or local)
+        allow_multiple: false
+        required: true
+      - label: "Description/Alt Text"
+        name: "alt"
+        widget: "string"
+        required: true
+        hint: "A brief, descriptive text for accessibility."
+      - label: "Date Taken"
+        name: "date"
+        widget: "datetime"
+        required: false
+
+  # Collection for Highlight Reels (Video URLs)
+  - name: "highlight_reels"
+    label: "Highlight Reels"
+    folder: "content/reels"
+    create: true
+    slug: "{{title}}"
+    fields:
+      - label: "Reel Title"
+        name: "title"
+        widget: "string"
+        required: true
+      - label: "Video URL"
+        name: "video_url"
+        widget: "string"
+        required: true
+        hint: "Paste the full public URL for the video (e.g., YouTube, Vimeo)."
+      - label: "Thumbnail Image"
+        name: "thumbnail"
+        widget: "image"
+        required: false
+        hint: "Optional image for preview before video loads."
