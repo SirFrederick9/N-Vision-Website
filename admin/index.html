@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
-    <title>Content Manager</title>
-  </head>
-  <body>
-    <!-- Include the script that builds the page and powers Decap CMS -->
+    <title>N-Vision Content Manager</title>
+</head>
+<body>
+    <!-- This is the main Decap CMS script. -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  </body>
+    
+    <!-- IMPORTANT: Load the custom preview script AFTER the main CMS script. -->
+    <script src="./preview.js"></script>
+
+    <!-- NOTE: We don't need the Identity widget or a redirect script 
+         because we are using the GitHub backend, which handles the login 
+         process when the user is sent to the GitHub Universal Login page. -->
+</body>
 </html>
+
