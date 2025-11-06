@@ -15,7 +15,7 @@ backend:
   app_id: "f4cD6050mr0exBOEd4hPncOJA59K8N37" 
 
   # The Git repository to connect to (based on your N-Vision-Website repo)
-  repo: "SirFrederickG/N-Vision-Website" 
+  repo: "SirFrederick9/N-Vision-Website" 
   
   # --- NOTE: If you run into issues, you may need these custom endpoints ---
   # auth_endpoint: oauth2/authorize
