@@ -1,25 +1,26 @@
 backend:
   # The name of the backend, required for external OAuth flows like Auth0
-name: git-gateway
+  name: git-gateway
   
   # PKCE (Proof Key for Code Exchange) is the required modern OAuth flow
-auth_type: pkce 
+  auth_type: pkce 
   
   # The branch where all content changes will be committed
-branch: main 
+  branch: main 
   
   # --- AUTH0 CONFIGURATION (Extracted from your Netlify screenshot) ---
   # This is your Auth0 Tenant Domain
-base_url: "https://dev-5ucvrktdgkt81g2n.us.auth0.com" 
+  base_url: "https://dev-5ucvrktdgkt81g2n.us.auth0.com" 
   # This is your Auth0 Application Client ID
-app_id: "ihEW2LNLygTGjTB9aTaLq9keeMipU60U" 
+  app_id: "ihEW2LNLygTGjTB9aTaLq9keeMipU60U" 
 
   # The Git repository to connect to (based on your N-Vision-Website repo)
-repo: "SirFrederick9/N-Vision-Website" 
+  repo: "SirFrederick9/N-Vision-Website" 
   
   # --- NOTE: If you run into issues, you may need these custom endpoints ---
   # auth_endpoint: oauth2/authorize
   # auth_token_endpoint: oauth2/token 
+
 media_folder: "static/img" # Folder where all uploaded images will be stored
 public_folder: "/img"      # The folder in your site where images are displayed from
 
@@ -46,4 +47,3 @@ collections:
       - {label: "Body", name: "body", widget: "markdown"}
       - {label: "Tags", name: "tags", widget: "list", required: false}
       - {label: "Template", name: "template", widget: "hidden", default: "post"}
-
