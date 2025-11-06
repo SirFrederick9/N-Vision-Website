@@ -10,7 +10,7 @@ backend:
   
   # --- AUTH0 CONFIGURATION (Extracted from your Netlify screenshot) ---
   # This is your Auth0 Tenant Domain
-  base_url: "https://dev-5uvvs0k0j8ight3g6in.us.auth0.com" 
+  base_url: "https://dev-5ucvrktdgkt81g2n.us.auth0.com" 
   # This is your Auth0 Application Client ID
   app_id: "MC000f090c88cd272d95e0a0f983417" 
 
