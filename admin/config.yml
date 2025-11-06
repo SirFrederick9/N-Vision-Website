@@ -1,31 +1,46 @@
 backend:
+  # This is the working, simpler backend that uses your GitHub permissions.
   name: github
-  repo: SirFrederick9/N-Vision-Website # MUST be your repository name
-  branch: main # Default branch for your content (typically 'main' or 'master')
+  repo: SirFrederick9/N-Vision-Website # REPLACE with your actual GitHub repo (Org/Repo)
+  branch: main # Or whatever your main branch is called
 
-media_folder: "static/img" # Folder where all uploaded images will be stored
-public_folder: "/img"      # The folder in your site where images are displayed from
+# Define where media files will be saved relative to the site root (e.g., in a 'static' or 'public' folder)
+media_folder: "static/img"
+public_folder: "/img"
 
-# --- COLLECTIONS --- (Example content structure)
+# Define the collections (content types) for your CMS
 collections:
+  # 1. PAGES Collection (Used for the custom visual preview setup)
   - name: "pages"
-    label: "Pages"
-    folder: "content/pages" 
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Body", name: "body", widget: "markdown"}
-      - {label: "Template", name: "template", widget: "hidden", default: "page"}
+    label: "Website Pages"
+    files:
+      - label: "Homepage"
+        name: "index"
+        file: "content/pages/index.md" # Adjust path based on your site's structure
+        fields:
+          - {label: "Title", name: "title", widget: "string"}
+          - {label: "Body Content", name: "body", widget: "markdown"}
+      - label: "About Page"
+        name: "about"
+        file: "content/pages/about.md" # Adjust path based on your site's structure
+        fields:
+          - {label: "Title", name: "title", widget: "string"}
+          - {label: "Body Content", name: "body", widget: "markdown"}
 
-  - name: "blog"
-    label: "Blog Posts"
-    folder: "content/blog"
+  # 2. HIGHLIGHT REELS Collection (For video URLs)
+  - name: "highlight_reels"
+    label: "Highlight Reels"
+    folder: "content/reels" # Saves files to content/reels/*.md
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    slug: "{{title}}" # Creates file names based on the title
     fields:
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Publish Date", name: "date", widget: "datetime"}
-      - {label: "Body", name: "body", widget: "markdown"}
-      - {label: "Tags", name: "tags", widget: "list", required: false}
-      - {label: "Template", name: "template", widget: "hidden", default: "post"}
+      - {label: "Title", name: "title", widget: "string", required: true}
+      - label: "Video URL (YouTube, Vimeo, etc.)"
+        name: "video_url"
+        widget: "string"
+        hint: "Paste the public sharing link for your video (e.g., https://youtu.be/exampleID). DO NOT upload video files here."
+      - label: "Thumbnail Image"
+        name: "thumbnail"
+        widget: "image",
+        required: false
+
