@@ -409,54 +409,45 @@
 
         /**
          * Fetches all content from the JSON files created and managed by Decap CMS.
-         * NOTE: You must ensure these JSON files exist in your file structure (e.g., /_data/).
          */
         async function fetchData() {
             try {
-                // Define the paths for the Decap-managed JSON files (assuming /_data/ structure)
                 const paths = [
-                    '/_data/portfolio_items.json', // Must match your Decap collection file name
+                    '/_data/portfolio_items.json', 
                     '/_data/testimonial_data.json',
                     '/_data/faq_data.json',
                     '/_data/quiz_questions.json'
                 ];
 
-                // Remove loading messages
+                // Remove loading messages initially, they will be re-added if data is missing
                 ['portfolio', 'testimonials', 'faq', 'quiz'].forEach(id => {
                     const msg = document.getElementById(`${id}-loading-message`);
                     if (msg) msg.style.display = 'none';
                 });
 
-                // Fetch all files simultaneously
                 const responses = await Promise.all(paths.map(path => fetch(path)));
                 
-                // Check for HTTP errors (e.g., 404 Not Found)
                 responses.forEach((res, index) => {
                     if (!res.ok) {
-                        // Throwing an error will execute the catch block
                         throw new Error(`Failed to fetch ${paths[index]}: ${res.status} ${res.statusText}`);
                     }
                 });
 
-                // Parse all responses as JSON
                 const [portfolioRes, testimonialRes, faqRes, quizRes] = await Promise.all(responses.map(res => res.json()));
 
-                // Populate the global data arrays
-                // NOTE: If your Decap config uses different key names (e.g., 'image_url' instead of 'imageUrl' - see below) 
-                // you must adjust the rendering functions accordingly.
-                portfolioItems = portfolioRes; // Expecting array of objects {title, category, description, image_url}
-                testimonialData = testimonialRes; // Expecting array of objects {quote, name, company, color, mission}
-                faqData = faqRes; // Expecting array of objects {question, answer}
-                quizQuestions = quizRes; // Expecting array of objects {question, options, correct_index}
+                portfolioItems = portfolioRes;
+                testimonialData = testimonialRes;
+                faqData = faqRes;
+                quizQuestions = quizRes;
 
             } catch (error) {
-                console.error("Error loading Decap CMS data. Falling back to mock data or empty lists.", error);
+                console.error("Error loading Decap CMS data. Using empty lists.", error);
                 
-                // Display error message to user
+                // Display error message to user for dynamic sections
                 ['portfolio', 'testimonials', 'faq', 'quiz'].forEach(id => {
                     const msg = document.getElementById(`${id}-loading-message`);
                     if (msg) {
-                        msg.textContent = `Error loading content. Check Decap JSON files. (Using mock data if available)`;
+                        msg.textContent = `Error loading content. Check Decap JSON files.`;
                         msg.style.display = 'block';
                         msg.classList.add('text-red-400');
                     }
@@ -465,7 +456,7 @@
         }
 
 
-        // --- DYNAMIC RENDERING FUNCTIONS (Updated to use Decap data structure) ---
+        // --- DYNAMIC RENDERING FUNCTIONS ---
         
         /** Renders the portfolio items into the grid. */
         function renderPortfolio() {
@@ -478,7 +469,6 @@
             }
 
             portfolioItems.forEach(item => {
-                // Assuming Decap items have keys: title, category, description, image_url
                 const cardHtml = `
                     <div class="portfolio-card bg-gray-800 rounded-xl shadow-xl overflow-hidden group relative transition duration-300 transform hover:scale-[1.02]">
                         <div class="h-64 overflow-hidden">
@@ -507,7 +497,6 @@
             }
 
             testimonialData.forEach(item => {
-                // Assuming Decap items have keys: quote, name, title, color, mission
                 const cardHtml = `
                     <div class="bg-gray-900 p-6 rounded-xl shadow-lg border-l-4 border-${item.color || 'cyan'}-400 text-left">
                         <p class="text-xl italic text-gray-300 mb-4">
@@ -532,7 +521,6 @@
             }
 
             faqData.forEach(item => {
-                // Assuming Decap items have keys: question, answer
                 const faqHtml = `
                     <div class="bg-gray-800 rounded-xl p-6 shadow-lg">
                         <div class="faq-question-header flex justify-between items-center text-xl font-semibold text-cyan-400 hover:text-cyan-300">
@@ -551,7 +539,7 @@
             initializeFaqListeners(); 
         }
 
-        // --- INTERACTION LOGIC (from first code block) ---
+        // --- INTERACTION LOGIC ---
 
         /** Toggles the visibility of an FAQ answer. */
         function toggleFaqAnswer(questionHeader) {
@@ -567,7 +555,6 @@
         function initializeFaqListeners() {
             const faqHeaders = document.querySelectorAll('.faq-question-header');
             faqHeaders.forEach(header => {
-                // Ensure no double listeners if called multiple times
                 header.removeEventListener('click', () => toggleFaqAnswer(header)); 
                 header.addEventListener('click', () => {
                     toggleFaqAnswer(header);
@@ -575,7 +562,7 @@
             });
         }
         
-        // --- AIRSPACE GAME LOGIC (from first code block) ---
+        // --- AIRSPACE GAME LOGIC ---
         const canvas = document.getElementById('airspaceCanvas');
         const ctx = canvas ? canvas.getContext('2d') : null; 
         const scoreDisplay = document.getElementById('scoreDisplay');
@@ -589,4 +576,349 @@
         let timerInterval = null;
         let gameRunning = false;
         let safeZone = {}; 
-        let restricted
+        let restrictedZones = [];
+
+        function resizeCanvas() {
+            if (!canvas || !canvas.parentElement) return;
+            const container = canvas.parentElement;
+            canvas.width = container.clientWidth;
+            canvas.height = canvas.width * 0.75; 
+            if (gameRunning) {
+                 drawMap();
+            } else if (ctx) {
+                 ctx.fillStyle = '#111827';
+                 ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        function generateZones() {
+            if (!canvas) return;
+            const size = Math.min(canvas.width, canvas.height) / 5;
+            
+            safeZone = {
+                x: Math.random() * (canvas.width - size * 1.5),
+                y: Math.random() * (canvas.height - size * 1.5),
+                w: size * 1.5,
+                h: size * 1.5,
+                color: 'rgba(34, 197, 94, 0.8)', // Green (emerald-500)
+                type: 'safe'
+            };
+
+            restrictedZones = [];
+            for (let i = 0; i < 3; i++) {
+                restrictedZones.push({
+                    x: Math.random() * (canvas.width - size),
+                    y: Math.random() * (canvas.height - size),
+                    w: size,
+                    h: size,
+                    color: 'rgba(239, 68, 68, 0.8)', // Red (red-500)
+                    type: 'restricted'
+                });
+            }
+        }
+
+        function drawMap() {
+            if (!ctx) return;
+            ctx.fillStyle = '#111827'; // Dark background
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            restrictedZones.forEach(zone => {
+                ctx.fillStyle = zone.color;
+                ctx.fillRect(zone.x, zone.y, zone.w, zone.h);
+                ctx.fillStyle = '#fee2e2'; 
+                ctx.font = 'bold 14px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText('NO FLY', zone.x + zone.w / 2, zone.y + zone.h / 2);
+            });
+
+            ctx.fillStyle = safeZone.color;
+            ctx.fillRect(safeZone.x, safeZone.y, safeZone.w, safeZone.h);
+            ctx.fillStyle = '#ccfbf1'; 
+            ctx.font = 'bold 18px Inter';
+            ctx.textAlign = 'center';
+            ctx.fillText('SAFE ZONE', safeZone.x + safeZone.w / 2, safeZone.y + safeZone.h / 2);
+        }
+
+        function isClicked(x, y, zone) {
+            return x >= zone.x && x <= zone.x + zone.w &&
+                   y >= zone.y && y <= zone.y + zone.h;
+        }
+
+        function handleCanvasClick(event) {
+            if (!gameRunning || !canvas) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const clickX = (event.clientX - rect.left) * scaleX;
+            const clickY = (event.clientY - rect.top) * scaleY;
+
+            for (const zone of restrictedZones) {
+                if (isClicked(clickX, clickY, zone)) {
+                    endGame('Restricted Airspace Violation! Game Over.');
+                    return; 
+                }
+            }
+            
+            if (isClicked(clickX, clickY, safeZone)) {
+                score++;
+                scoreDisplay.textContent = score;
+                generateZones(); 
+                drawMap();
+            }
+        }
+
+        function startGame() {
+            if (gameRunning || !canvas) return;
+
+            gameRunning = true;
+            score = 0;
+            timeLeft = 30;
+            scoreDisplay.textContent = score;
+            timerDisplay.textContent = timeLeft;
+            messageDisplay.classList.add('hidden');
+            startButton.textContent = 'Challenge Running...';
+            startButton.disabled = true;
+            
+            resizeCanvas();
+
+            generateZones();
+            drawMap();
+
+            gameInterval = setInterval(() => {
+                generateZones();
+                drawMap();
+            }, 1500);
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    endGame('Time is up!');
+                }
+            }, 1000);
+        }
+
+        function endGame(message) {
+            clearInterval(gameInterval);
+            clearInterval(timerInterval);
+            gameRunning = false;
+            startButton.textContent = 'Start New Challenge';
+            startButton.disabled = false;
+            messageDisplay.textContent = `${message} Final Score: ${score}`;
+            messageDisplay.classList.remove('hidden');
+        }
+        
+        // --- QUIZ LOGIC ---
+        let currentQuestionIndex = 0;
+        let quizScore = 0;
+        const quizContainer = document.getElementById('quiz-container');
+        const quizResult = document.getElementById('quizResult');
+        const nextQuizButton = document.getElementById('nextQuizButton');
+
+        /** Renders the current quiz question. */
+        function renderQuizQuestion() {
+            if (!quizContainer) return;
+             document.getElementById('quiz-loading-message').style.display = 'none';
+
+            if (quizQuestions.length === 0) {
+                quizContainer.innerHTML = '<p class="text-center text-red-400">Quiz data is empty or failed to load. Check Decap CMS configuration.</p>';
+                quizResult.classList.add('hidden');
+                nextQuizButton.classList.add('hidden');
+                return;
+            }
+
+            if (currentQuestionIndex >= quizQuestions.length) {
+                displayFinalQuizScore();
+                return;
+            }
+
+            const q = quizQuestions[currentQuestionIndex];
+            quizContainer.innerHTML = `
+                <div class="bg-gray-800 rounded-xl p-6 shadow-lg border-l-4 border-cyan-400" data-question-index="${currentQuestionIndex}">
+                    <p class="text-xl font-semibold text-white mb-4">Q${currentQuestionIndex + 1}: ${q.question}</p>
+                    <div class="space-y-3" id="options-${currentQuestionIndex}">
+                        ${q.options.map((option, index) => `
+                            <button class="quiz-option w-full p-3 rounded-lg bg-gray-700 text-gray-300 text-left" data-option-index="${index}">
+                                ${String.fromCharCode(65 + index)}. ${option}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            quizResult.classList.add('hidden');
+            nextQuizButton.classList.add('hidden');
+            
+            // Re-attach listeners for the newly rendered quiz options
+            initializeQuizListeners(currentQuestionIndex);
+        }
+
+        /** Handles user answer selection. */
+        function handleAnswer(qIndex, selectedOptionIndex) {
+            const questionElement = quizContainer.querySelector(`[data-question-index="${qIndex}"]`);
+            const optionsContainer = questionElement.querySelector(`#options-${qIndex}`);
+            const selectedButton = optionsContainer.querySelector(`[data-option-index="${selectedOptionIndex}"]`);
+            
+            // Use 'correct_index' first, fall back to 'answer' (from original quiz data structure)
+            const correctIndex = quizQuestions[qIndex].correct_index !== undefined ? quizQuestions[qIndex].correct_index : quizQuestions[qIndex].answer;
+            const correctButton = optionsContainer.querySelector(`[data-option-index="${correctIndex}"]`);
+
+            // Disable all buttons for this question
+            optionsContainer.querySelectorAll('.quiz-option').forEach(btn => btn.disabled = true);
+
+            // Check if correct
+            if (selectedOptionIndex === correctIndex) {
+                selectedButton.classList.add('correct');
+                quizScore++;
+                quizResult.textContent = 'Correct! That’s how we fly.';
+                quizResult.classList.remove('text-red-400');
+                quizResult.classList.add('text-cyan-400');
+            } else {
+                selectedButton.classList.add('incorrect');
+                if (correctButton) correctButton.classList.add('correct');
+                quizResult.textContent = 'Incorrect. Time to check the regulations!';
+                quizResult.classList.remove('text-cyan-400');
+                quizResult.classList.add('text-red-400');
+            }
+
+            quizResult.classList.remove('hidden');
+            nextQuizButton.classList.remove('hidden');
+        }
+
+        /** Displays final quiz score. */
+        function displayFinalQuizScore() {
+            quizContainer.innerHTML = `
+                <div class="bg-gray-800 rounded-xl p-6 shadow-lg text-center">
+                    <p class="text-3xl font-bold text-white mb-4">Quiz Complete!</p>
+                    <p class="text-xl text-gray-300">Your Final Score: <span class="text-cyan-400">${quizScore} / ${quizQuestions.length}</span></p>
+                    <p class="text-md text-gray-400 mt-2">${quizScore === quizQuestions.length ? 'Perfect score! You are cleared for takeoff.' : 'Great effort! Reviewing Part 107 is always a good idea.'}</p>
+                </div>
+            `;
+            quizResult.classList.add('hidden');
+            nextQuizButton.classList.add('hidden');
+            currentQuestionIndex = 0; // Reset for replay
+            quizScore = 0;
+        }
+
+        /** Attaches click listeners to quiz options. */
+        function initializeQuizListeners(qIndex) {
+            const optionsContainer = document.getElementById(`options-${qIndex}`);
+            if (!optionsContainer) return;
+            
+            optionsContainer.querySelectorAll('.quiz-option').forEach(button => {
+                // Ensure no double listeners
+                button.removeEventListener('click', (e) => {
+                    const selectedIndex = parseInt(e.currentTarget.getAttribute('data-option-index'));
+                    handleAnswer(qIndex, selectedIndex);
+                });
+                
+                button.addEventListener('click', (e) => {
+                    const selectedIndex = parseInt(e.currentTarget.getAttribute('data-option-index'));
+                    handleAnswer(qIndex, selectedIndex);
+                });
+            });
+            
+            // Re-attach next button click event
+            nextQuizButton.onclick = () => {
+                currentQuestionIndex++;
+                renderQuizQuestion();
+            };
+        }
+
+
+        /** Shows the requested page based on the hash, and updates the navigation links. */
+        function showPage(hash) {
+            const pageId = hash.substring(1) || 'home';
+            let found = false;
+            
+            if (pageId !== 'games' && gameRunning) {
+                endGame('Challenge Paused');
+            }
+
+            pageSections.forEach(section => {
+                if (section.id === pageId) {
+                    section.style.display = 'block';
+                    found = true;
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+
+            if (!found) {
+                document.getElementById('home').style.display = 'block';
+            }
+
+            navLinks.forEach(link => {
+                link.classList.remove('active-link');
+                const linkHrefId = link.getAttribute('href').substring(1);
+                
+                if (linkHrefId === pageId) {
+                    link.classList.add('active-link');
+                }
+            });
+            
+            // Render and initialize dynamic content only after data is loaded
+            if (pageId === 'portfolio') {
+                renderPortfolio();
+            } else if (pageId === 'testimonials') {
+                renderTestimonials();
+            } else if (pageId === 'faq') {
+                renderFaqs(); 
+            } else if (pageId === 'games') {
+                resizeCanvas();
+                renderQuizQuestion();
+            }
+
+            window.scrollTo(0, 0); 
+        }
+        
+        // --- CENTRAL INITIALIZATION FUNCTION ---
+        function initializeListeners() {
+            // Game Listeners (Airspace Challenge)
+            if (canvas) {
+                canvas.addEventListener('click', handleCanvasClick);
+            }
+            if (startButton) {
+                startButton.addEventListener('click', startGame);
+            }
+            
+            // Global Listeners
+            window.addEventListener('resize', () => {
+                 if (window.location.hash === '#games') {
+                     resizeCanvas();
+                 }
+            });
+
+            window.onhashchange = function() {
+                showPage(window.location.hash);
+            };
+        }
+
+        // --- Window Load ---
+        window.onload = async function () {
+            document.getElementById('year').textContent = new Date().getFullYear();
+            
+            // 1. Fetch data from Decap CMS (Wait for this)
+            await fetchData();
+
+            // 2. Attach ALL fixed/global listeners (including game start/click)
+            initializeListeners();
+
+            // 3. Set up game environment before page load (if relevant)
+            if (canvas) {
+                resizeCanvas();
+            }
+
+            // 4. Show the correct page and render initial dynamic content
+            showPage(window.location.hash);
+        }
+
+        // Set initial hash to #home if none is present (for first load)
+        if (!window.location.hash) {
+            window.location.hash = '#home';
+        }
+        
+    </script>
+
+</body>
+</html>
