@@ -36,7 +36,7 @@ collections:
                 name: "description"
                 widget: "text"
               - label: "Image Placeholder URL"
-                name: "imageUrl"
+                name: "image_url"
                 widget: "string"
                 hint: "Use a placeholder URL like 'https://placehold.co/800x600/171717/cccccc?text=Image+Placeholder'"
 
