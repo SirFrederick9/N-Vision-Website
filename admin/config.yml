@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: SirFrederickG/N-Vision-Website # Replace with your repo if different
+  repo: SirFrederick9/N-Vision-Website # Replace with your repo if different
   branch: main
   base_url: https://api.netlify.com # Required for GitHub OAuth with Netlify Git Gateway
 
