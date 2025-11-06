@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Part 107 Precision Pilot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        
+        body {
+            background-color: #1f2937; /* Dark Gray */
+            color: #f9fafb; /* Light Gray */
+            font-family: 'Orbitron', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        #game-container {
+            position: relative;
+            background: #2b3543;
+            border: 4px solid #4b5563;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            max-width: 95vw;
+        }
+
+        #game-canvas {
+            display: block;
+            border-radius: 8px;
+            background: linear-gradient(to bottom, #7dd3fc 0%, #38bdf8 100%); /* Sky Gradient */
+        }
+
+        .info-box {
+            background: #374151;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .control-btn {
+            background: #10b981; /* Tailwind Emerald */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+            box-shadow: 0 4px #059669;
+            border: none;
+        }
+
+        .control-btn:hover {
+            background: #059669;
+        }
+
+        .control-btn:active {
+            box-shadow: 0 2px #059669;
+            transform: translateY(2px);
+        }
+
+        #message-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.85);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 3px solid #f59e0b; /* Amber */
+            z-index: 20;
+            display: none;
+            max-width:
