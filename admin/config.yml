@@ -1,1 +1,46 @@
+backend:
+  # Uses the Git Gateway logic, but with an External OAuth Client
+  name: git-gateway
+  # This tells Decap to use the modern PKCE OAuth flow
+  auth_type: pkce 
+  branch: main 
+  
+  # --- AUTH0 CONFIGURATION ---
+  # Replace with your actual Auth0 Domain (e.g., my-site.us.auth0.com)
+  base_url: "https://[YOUR-AUTH0-DOMAIN]" 
+  # Replace with your Auth0 SPA Client ID (Application ID)
+  app_id: "[YOUR-AUTH0-CLIENT-ID]" 
+
+  # The Git repository to connect to (must be linked to your Auth0/OAuth proxy)
+  repo: "[YOUR-GITHUB-USERNAME]/[YOUR-REPOSITORY-NAME]" 
+  
+  # Optional: For advanced setups, you might need to customize endpoints. 
+  # auth_endpoint: oauth2/authorize
+  # auth_token_endpoint: oauth2/token 
+
+media_folder: "static/img" # Folder where all uploaded images will be stored
+public_folder: "/img"      # The folder in your site where images are displayed from
+
+# --- COLLECTIONS --- (Example content structure)
+collections:
+  - name: "pages"
+    label: "Pages"
+    folder: "content/pages" 
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Body", name: "body", widget: "markdown"}
+
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Body", name: "body", widget: "markdown"}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
+
 
