@@ -1,24 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>Content Manager</title>
-</head>
-<body>
-    <!-- 
-        This is the main Decap CMS script. 
-        It reads the config.yml and starts the CMS interface.
-    -->
+  </head>
+  <body>
+    <!-- Include the script that builds the page and powers Decap CMS -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-    
-    <!-- 
-        *** IMPORTANT AUTH0 NOTE ***
-        With Auth0, you typically DO NOT need the Identity Widget or a redirect script 
-        on the /admin/ page. The CMS backend configuration (in config.yml) 
-        handles the login process when the user is sent to the Auth0 Universal Login page.
-    -->
-</body>
+  </body>
 </html>
-
