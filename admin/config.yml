@@ -1,57 +1,117 @@
-backend:
-  name: github
-  repo: SirFrederick9/N-Vision-Website 
-  branch: main
-  base_url: https://api.netlify.com 
+# The content management interface setup
+publish_mode: editorial_workflow
+media_folder: "assets/img"  # Where uploaded images will be stored
+public_folder: "/assets/img" # The public path for images
 
-media_folder: "assets/img/uploads"
-public_folder: "/assets/img/uploads"
-
+# --- COLLECTIONS: These define the editable sections in the CMS ---
 collections:
-  # General Pages (Home, Services)
-  - name: "pages"
-    label: "Website Pages"
-    files:
-      - label: "Home Page"
-        name: "home"
-        file: "content/pages/home.md"
-        fields:
-          - label: "Title"
-            name: "title"
-            widget: "string"
-          - label: "Body Content"
-            name: "body"
-            widget: "markdown"
-
-  # Combined Portfolio (Photos & Videos)
+  
+  # 1. PORTFOLIO ITEMS (Maps to portfolioItems array)
   - name: "portfolio"
-    label: "Portfolio Items"
-    folder: "content/portfolio"
-    create: true
-    slug: "{{title}}"
-    fields:
-      - label: "Item Title"
-        name: "title"
-        widget: "string"
-        required: true
-      - label: "Type"
-        name: "type"
-        widget: "select"
-        options: ["Photo", "Video"]
-        default: "Photo"
-        required: true
-      - label: "Media Upload (Photo Only)"
-        name: "image"
-        widget: "image"
-        required: false
-        hint: "Upload your high-quality photo here."
-      - label: "Video URL (Video Only)"
-        name: "video_url"
-        widget: "string"
-        required: false
-        hint: "Paste the full public URL for the video (e.g., YouTube, Vimeo link)."
-      - label: "Alt Text / Description"
-        name: "alt"
-        widget: "string"
-        required: true
-        hint: "A brief, descriptive text for accessibility and SEO."
+    label: "Portfolio Projects"
+    # We use a single file approach here because the website loads one array per section.
+    files:
+      - file: "_data/portfolio_items.json"
+        label: "Projects List"
+        name: "items"
+        fields:
+          - label: "Project List"
+            name: "portfolioItems"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - label: "Title"
+                name: "title"
+                widget: "string"
+              - label: "Category"
+                name: "category"
+                widget: "select"
+                options: ["Real Estate", "Aviation", "Technical Imaging", "Small Business"]
+                default: "Real Estate"
+              - label: "Description"
+                name: "description"
+                widget: "text"
+              - label: "Image Placeholder URL"
+                name: "imageUrl"
+                widget: "string"
+                hint: "Use a placeholder URL like 'https://placehold.co/800x600/171717/cccccc?text=Image+Placeholder'"
+
+  # 2. TESTIMONIALS (Maps to testimonialData array)
+  - name: "testimonials"
+    label: "Client Testimonials"
+    files:
+      - file: "_data/testimonial_data.json"
+        label: "Testimonials List"
+        name: "items"
+        fields:
+          - label: "Testimonials"
+            name: "testimonialData"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - label: "Quote"
+                name: "quote"
+                widget: "text"
+              - label: "Client Name"
+                name: "name"
+                widget: "string"
+              - label: "Client Title"
+                name: "title"
+                widget: "string"
+              - label: "Mission Type"
+                name: "mission"
+                widget: "string"
+              - label: "Accent Color"
+                name: "color"
+                widget: "select"
+                options: ["cyan", "yellow", "fuchsia"]
+
+  # 3. FAQs (Maps to faqData array)
+  - name: "faqs"
+    label: "FAQ Content"
+    files:
+      - file: "_data/faq_data.json"
+        label: "FAQ List"
+        name: "items"
+        fields:
+          - label: "Questions & Answers"
+            name: "faqData"
+            widget: "list"
+            summary: "{{fields.question}}"
+            fields:
+              - label: "Question"
+                name: "question"
+                widget: "string"
+              - label: "Answer"
+                name: "answer"
+                widget: "markdown"
+  
+  # 4. QUIZ QUESTIONS (Maps to quizQuestions array)
+  - name: "quizzes"
+    label: "Part 107 Quiz"
+    files:
+      - file: "_data/quiz_questions.json"
+        label: "Quiz Questions List"
+        name: "items"
+        fields:
+          - label: "Quiz Questions"
+            name: "quizQuestions"
+            widget: "list"
+            summary: "{{fields.question}}"
+            fields:
+              - label: "Question"
+                name: "question"
+                widget: "string"
+              - label: "Options (A, B, C...)"
+                name: "options"
+                widget: "list"
+                min: 2
+                max: 4
+                field: {label: "Option Text", name: "option", widget: "string"}
+              - label: "Correct Answer Index (0 for first, 1 for second, etc.)"
+                name: "answer"
+                widget: "number"
+                value_type: "int"
+                min: 0
+                max: 3
+                default: 0
