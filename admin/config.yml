@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: SirFrederickG/N-Vision-Website 
+  repo: SirFrederick9/N-Vision-Website 
   branch: main
   base_url: https://api.netlify.com 
 
