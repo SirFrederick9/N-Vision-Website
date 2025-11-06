@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: SirFrederickG/N-Vision-Website # MUST be your repository name
+  repo: SirFrederick9/N-Vision-Website # MUST be your repository name
   branch: main # Default branch for your content (typically 'main' or 'master')
 
 media_folder: "static/img" # Folder where all uploaded images will be stored
