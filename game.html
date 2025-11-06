@@ -27,9 +27,10 @@
             border: 4px solid #4b5563;
             border-radius: 12px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-            width: 100%; /* Important: Use max-width via JS, but set 100% here */
-            min-height: 200px; 
-            overflow: hidden; /* Hide anything outside the canvas area */
+            width: 100%; 
+            max-width: 600px; /* Limits the game size on large screens */
+            min-height: 300px; /* Ensure minimum visible height */
+            overflow: hidden; 
         }
 
         #game-canvas {
@@ -44,7 +45,7 @@
             border-radius: 8px;
             margin-top: 1.5rem;
             width: 100%;
-            max-width: 600px; /* Match max canvas width */
+            max-width: 600px; 
             text-align: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
@@ -84,4 +85,368 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(0, 0, 0, 0.85);
-            padding: 2rem
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 3px solid #f59e0b; /* Amber */
+            z-index: 20;
+            display: none;
+            max-width: 90%;
+            font-size: 1.25rem;
+        }
+
+        .drone-svg {
+            position: absolute;
+            transition: transform 0.05s linear; 
+        }
+
+        .score-display {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: #f59e0b; /* Amber */
+            text-shadow: 2px 2px #1f2937;
+            z-index: 10;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="game-container" class="relative max-w-xl">
+        <canvas id="game-canvas"></canvas>
+        <div id="score-display" class="score-display">Score: 0</div>
+        
+        <!-- Drone SVG Icon (Inline for Single File) -->
+        <svg id="drone-svg" class="drone-svg" viewBox="0 0 100 100" style="width: 50px; height: 50px;">
+            <defs>
+                <!-- Drone body (Quadrotor X-frame shape) -->
+                <path id="drone-body" d="M30 30 L50 50 L70 30 L50 50 L70 70 L50 50 L30 70 L50 50 Z" fill="#fff" stroke="#4B5563" stroke-width="5"/>
+                <!-- Propeller arms (lines) -->
+                <line x1="30" y1="30" x2="70" y2="70" stroke="#4B5563" stroke-width="4"/>
+                <line x1="30" y1="70" x2="70" y2="30" stroke="#4B5563" stroke-width="4"/>
+                <!-- Propellers (circles) -->
+                <circle id="prop-tl" cx="30" cy="30" r="10" fill="#f59e0b"/>
+                <circle id="prop-tr" cx="70" cy="30" r="10" fill="#f59e0b"/>
+                <circle id="prop-bl" cx="30" cy="70" r="10" fill="#f59e0b"/>
+                <circle id="prop-br" cx="70" cy="70" r="10" fill="#f59e0b"/>
+            </defs>
+            <use href="#drone-body" transform="translate(0, 0) scale(0.5)"/>
+            <use href="#prop-tl" transform="translate(-10, -10) scale(0.5)"/>
+            <use href="#prop-tr" transform="translate(10, -10) scale(0.5)"/>
+            <use href="#prop-bl" transform="translate(-10, 10) scale(0.5)"/>
+            <use href="#prop-br" transform="translate(10, 10) scale(0.5)"/>
+        </svg>
+
+        <div id="message-box">
+            <h3 id="message-title" class="text-3xl font-bold text-yellow-400 mb-4">Part 107 Precision Pilot</h3>
+            <p id="message-text" class="mb-6">Navigate the drone through the course. Use UP/DOWN arrows or W/S to control altitude.</p>
+            <div class="button-group">
+                <button id="start-button" class="control-btn">Start Flight</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-box">
+        <h2 class="text-xl font-bold mb-2">Controls</h2>
+        <p class="text-sm">Keyboard: W (Up) / S (Down) or Arrow Keys (Up/Down)</p>
+        <p class="text-sm mt-1">Touch: Tap and hold the top or bottom half of the canvas.</p>
+    </div>
+
+    <script>
+        // --- Game Constants ---
+        const GRAVITY = 0.5;
+        const THRUST = -1.2;
+        const MAX_VELOCITY = 10;
+        const OBSTACLE_SPEED = 3;
+        const OBSTACLE_WIDTH = 40;
+        const MIN_GAP_HEIGHT = 100;
+        const MAX_GAP_HEIGHT = 150;
+        const OBSTACLE_INTERVAL = 150; // Pixels distance between obstacles
+
+        // --- DOM Elements ---
+        const gameContainer = document.getElementById('game-container');
+        const canvas = document.getElementById('game-canvas');
+        const ctx = canvas.getContext('2d');
+        const droneSvg = document.getElementById('drone-svg');
+        const scoreDisplay = document.getElementById('score-display');
+        const startButton = document.getElementById('start-button');
+        const messageBox = document.getElementById('message-box');
+        const messageTitle = document.getElementById('message-title');
+        const messageText = document.getElementById('message-text');
+
+        // --- Game State ---
+        let gameLoopId;
+        let isRunning = false;
+        let score = 0;
+        let obstacles = [];
+        let timeSinceLastObstacle = 0;
+        let canvasWidth, canvasHeight;
+
+        // --- Drone State ---
+        const drone = {
+            x: 50,
+            y: 0,
+            width: 50,
+            height: 50,
+            velocity: 0,
+            thrustingUp: false,
+            thrustingDown: false
+        };
+
+        // --- Initialization ---
+        function resizeCanvas() {
+            // FIX: Set canvas width to its container's actual width and use a fixed aspect ratio for height
+            canvasWidth = gameContainer.clientWidth;
+            canvasHeight = Math.min(canvasWidth * 0.6, 400); // Maintain a ~16:10 aspect ratio, max 400px height
+
+            // Set canvas attributes
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+            
+            // Set initial drone position
+            if (!isRunning) {
+                drone.y = canvasHeight / 2 - drone.height / 2;
+            }
+            
+            // Draw immediately after resizing to show the initial state
+            draw();
+        }
+
+        function resetGame() {
+            score = 0;
+            obstacles = [];
+            drone.y = canvasHeight / 2 - drone.height / 2; // Center drone vertically
+            drone.velocity = 0;
+            timeSinceLastObstacle = 0;
+            scoreDisplay.textContent = 'Score: 0';
+            isRunning = false;
+        }
+
+        // --- Drawing Functions ---
+
+        function drawObstacle(obs) {
+            // Top obstacle (Bird/Tree)
+            ctx.fillStyle = '#f59e0b'; // Amber 
+            ctx.fillRect(obs.x, 0, OBSTACLE_WIDTH, obs.gapY);
+
+            // Bottom obstacle (Ground/Mountain)
+            ctx.fillRect(obs.x, obs.gapY + obs.gapHeight, OBSTACLE_WIDTH, canvasHeight - (obs.gapY + obs.gapHeight));
+
+            // Mark passed obstacle (for visual debug/interest)
+            if (obs.passed) {
+                ctx.fillStyle = 'rgba(16, 185, 129, 0.5)'; // Transparent Green
+                ctx.fillRect(obs.x, obs.gapY, OBSTACLE_WIDTH, obs.gapHeight);
+            }
+        }
+
+        function draw() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+            
+            // Draw floor/ceiling markers 
+            ctx.fillStyle = 'rgba(75, 85, 99, 0.5)'; // Gray
+            ctx.fillRect(0, 0, canvasWidth, 5); // Ceiling
+            ctx.fillRect(0, canvasHeight - 5, canvasWidth, 5); // Floor
+
+            // Draw obstacles
+            obstacles.forEach(drawObstacle);
+            
+            // Update drone SVG position and rotation
+            let rotation = Math.min(Math.max(drone.velocity * 1.5, -25), 25);
+            droneSvg.style.transform = `translateY(${drone.y}px) translateX(${drone.x}px) rotate(${rotation}deg)`;
+            droneSvg.style.left = `${drone.x}px`;
+            droneSvg.style.top = `${drone.y}px`;
+        }
+        
+        // --- Game Logic ---
+        
+        function updateDrone() {
+            // Apply thrust from user input
+            if (drone.thrustingUp) {
+                drone.velocity += THRUST;
+            } else if (drone.thrustingDown) {
+                drone.velocity -= THRUST;
+            }
+
+            // Apply gravity
+            drone.velocity += GRAVITY;
+
+            // Limit velocity (terminal velocity)
+            drone.velocity = Math.min(drone.velocity, MAX_VELOCITY);
+            drone.velocity = Math.max(drone.velocity, -MAX_VELOCITY);
+
+            // Update position
+            drone.y += drone.velocity;
+        }
+
+        function updateObstacles() {
+            timeSinceLastObstacle += OBSTACLE_SPEED;
+
+            // Spawn new obstacle
+            if (timeSinceLastObstacle > OBSTACLE_INTERVAL) {
+                const gapHeight = MIN_GAP_HEIGHT + Math.random() * (MAX_GAP_HEIGHT - MIN_GAP_HEIGHT);
+                const gapY = 20 + Math.random() * (canvasHeight - 40 - gapHeight);
+
+                obstacles.push({
+                    x: canvasWidth,
+                    gapY: gapY,
+                    gapHeight: gapHeight,
+                    passed: false
+                });
+                timeSinceLastObstacle = 0;
+            }
+
+            // Move and clean up obstacles
+            for (let i = 0; i < obstacles.length; i++) {
+                const obs = obstacles[i];
+                obs.x -= OBSTACLE_SPEED;
+
+                // Check for score
+                if (obs.x + OBSTACLE_WIDTH < drone.x && !obs.passed) {
+                    obs.passed = true;
+                    score++;
+                    scoreDisplay.textContent = `Score: ${score}`;
+                }
+
+                // Remove off-screen obstacles
+                if (obs.x + OBSTACLE_WIDTH < 0) {
+                    obstacles.splice(i, 1);
+                    i--;
+                }
+            }
+        }
+
+        function checkCollision() {
+            // Check top/bottom boundaries (restricted airspace)
+            if (drone.y <= 5 || drone.y + drone.height >= canvasHeight - 5) {
+                return true;
+            }
+
+            // Check obstacle collisions
+            for (const obs of obstacles) {
+                // Check if drone is horizontally aligned with obstacle
+                if (drone.x + drone.width > obs.x && drone.x < obs.x + OBSTACLE_WIDTH) {
+                    // Check if drone hits top obstacle OR bottom obstacle
+                    if (drone.y < obs.gapY || drone.y + drone.height > obs.gapY + obs.gapHeight) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        // --- Main Game Loop ---
+
+        function gameLoop() {
+            if (!isRunning) return;
+
+            updateDrone();
+            updateObstacles();
+            
+            if (checkCollision()) {
+                gameOver();
+                return;
+            }
+
+            draw();
+            gameLoopId = requestAnimationFrame(gameLoop);
+        }
+
+        function gameOver() {
+            isRunning = false;
+            cancelAnimationFrame(gameLoopId);
+            messageTitle.textContent = "Flight Terminated!";
+            messageText.innerHTML = `Your drone collided with an obstacle or hit the restricted airspace. Final Score: <b>${score}</b>`;
+            startButton.textContent = "Restart Flight";
+            messageBox.style.display = 'block';
+        }
+
+        function startGame() {
+            if (isRunning) return;
+            resetGame();
+            isRunning = true;
+            messageBox.style.display = 'none';
+            gameLoopId = requestAnimationFrame(gameLoop);
+        }
+
+        // --- Event Handlers ---
+        
+        // Keyboard Controls
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp' || e.key.toLowerCase() === 'w') {
+                drone.thrustingUp = true;
+            } else if (e.key === 'ArrowDown' || e.key.toLowerCase() === 's') {
+                drone.thrustingDown = true;
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'ArrowUp' || e.key.toLowerCase() === 'w') {
+                drone.thrustingUp = false;
+            } else if (e.key === 'ArrowDown' || e.key.toLowerCase() === 's') {
+                drone.thrustingDown = false;
+            }
+        });
+
+        // Touch Controls
+        let touchStart = null;
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (!isRunning) {
+                // Allow start button via touch if game hasn't started
+                const rect = startButton.getBoundingClientRect();
+                const touchX = e.touches[0].clientX;
+                const touchY = e.touches[0].clientY;
+                if (touchX >= rect.left && touchX <= rect.right && touchY >= rect.top && touchY <= rect.bottom) {
+                    startGame();
+                    return;
+                }
+            }
+            
+            if (!isRunning) return;
+            
+            // Check if touch is in the top or bottom half for direction control
+            const touchY = e.touches[0].clientY - canvas.getBoundingClientRect().top;
+            const center = canvasHeight / 2;
+
+            if (touchY < center) {
+                drone.thrustingUp = true;
+                drone.thrustingDown = false;
+            } else {
+                drone.thrustingDown = true;
+                drone.thrustingUp = false;
+            }
+            touchStart = e.touches[0].identifier;
+        }, { passive: false });
+
+        canvas.addEventListener('touchend', (e) => {
+            if (!isRunning) return;
+            let controlTouch = Array.from(e.changedTouches).find(t => t.identifier === touchStart);
+            if (controlTouch) {
+                drone.thrustingUp = false;
+                drone.thrustingDown = false;
+                touchStart = null;
+            }
+        });
+
+        // Initialize and Start
+        startButton.addEventListener('click', startGame);
+        
+        window.addEventListener('resize', () => {
+             // Redraw on resize to maintain aspect ratio and size
+             resizeCanvas();
+             if (isRunning) draw();
+        });
+
+        window.onload = function() {
+            resizeCanvas();
+            draw(); 
+            messageBox.style.display = 'block';
+            droneSvg.style.display = 'block'; 
+        };
+    </script>
+</body>
+</html>
