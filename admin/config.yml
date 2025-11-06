@@ -20,7 +20,7 @@ collections:
         name: "items"
         fields:
           - label: "Project List"
-            name: "portfolioRes"
+            name: "portfolioRes.portfolioItems"
             widget: "list"
             summary: "{{fields.title}}"
             fields:
