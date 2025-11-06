@@ -41,6 +41,8 @@ collections:
         hint: "Paste the public sharing link for your video (e.g., https://youtu.be/exampleID). DO NOT upload video files here."
       - label: "Thumbnail Image"
         name: "thumbnail"
-        widget: "image",
+        widget: "image",  <-- **The error is related to this line's formatting**
         required: false
+
+
 
