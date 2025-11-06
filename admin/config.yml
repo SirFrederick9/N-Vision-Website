@@ -1,3 +1,8 @@
+backend:
+  # The standard backend for Git-based hosting (e.g., Netlify, Vercel)
+  name: git-gateway
+  branch: main # Change this to your main branch name (e.g., master)
+
 # The content management interface setup
 publish_mode: editorial_workflow
 media_folder: "assets/img"  # Where uploaded images will be stored
