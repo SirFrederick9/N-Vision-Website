@@ -1,12 +1,11 @@
 backend:
-  # The standard backend for Git-based hosting (e.g., Netlify, Vercel)
-  name: git-gateway
-  branch: main # Change this to your main branch name (e.g., master)
+  name: github
+  repo: SirFrederick9/N-Vision-Website 
+  branch: main
+  base_url: https://api.netlify.com 
 
-# The content management interface setup
-publish_mode: editorial_workflow
-media_folder: "assets/img"  # Where uploaded images will be stored
-public_folder: "/assets/img" # The public path for images
+media_folder: "assets/img/uploads"
+public_folder: "/assets/img/uploads"
 
 # --- COLLECTIONS: These define the editable sections in the CMS ---
 collections:
