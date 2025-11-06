@@ -7,7 +7,7 @@ backend:
   
   # --- AUTH0 CONFIGURATION ---
   # Replace with your actual Auth0 Domain (e.g., my-site.us.auth0.com)
-  base_url: "dev-5ucvrktdgkt81g2n.us.auth0.com" 
+  base_url: "https:dev-5ucvrktdgkt81g2n.us.auth0.com" 
   # Replace with your Auth0 SPA Client ID (Application ID)
   app_id: "f4cD6050mr0exBOEd4hPncOJA59K8N37" 
 
