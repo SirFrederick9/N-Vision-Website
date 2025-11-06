@@ -1,20 +1,23 @@
 backend:
-  # Uses the Git Gateway logic, but with an External OAuth Client
+  # The name of the backend, required for external OAuth flows like Auth0
   name: git-gateway
-  # This tells Decap to use the modern PKCE OAuth flow
+  
+  # PKCE (Proof Key for Code Exchange) is the required modern OAuth flow
   auth_type: pkce 
+  
+  # The branch where all content changes will be committed
   branch: main 
   
-  # --- AUTH0 CONFIGURATION ---
-  # Replace with your actual Auth0 Domain (e.g., my-site.us.auth0.com)
-  base_url: "https:dev-5ucvrktdgkt81g2n.us.auth0.com" 
-  # Replace with your Auth0 SPA Client ID (Application ID)
-  app_id: "f4cD6050mr0exBOEd4hPncOJA59K8N37" 
+  # --- AUTH0 CONFIGURATION (Extracted from your Netlify screenshot) ---
+  # This is your Auth0 Tenant Domain
+  base_url: "https://dev-5uvvs0k0j8ight3g6in.us.auth0.com" 
+  # This is your Auth0 Application Client ID
+  app_id: "MC000f090c88cd272d95e0a0f983417" 
 
-  # The Git repository to connect to (must be linked to your Auth0/OAuth proxy)
-  repo: "SirFrederick9/N-Vision-Website" 
+  # The Git repository to connect to (based on your N-Vision-Website repo)
+  repo: "SirFrederickG/N-Vision-Website" 
   
-  # Optional: For advanced setups, you might need to customize endpoints. 
+  # --- NOTE: If you run into issues, you may need these custom endpoints ---
   # auth_endpoint: oauth2/authorize
   # auth_token_endpoint: oauth2/token 
 
@@ -31,6 +34,7 @@ collections:
     fields:
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Body", name: "body", widget: "markdown"}
+      - {label: "Template", name: "template", widget: "hidden", default: "page"}
 
   - name: "blog"
     label: "Blog Posts"
@@ -42,5 +46,5 @@ collections:
       - {label: "Publish Date", name: "date", widget: "datetime"}
       - {label: "Body", name: "body", widget: "markdown"}
       - {label: "Tags", name: "tags", widget: "list", required: false}
-
+      - {label: "Template", name: "template", widget: "hidden", default: "post"}
 
