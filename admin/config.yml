@@ -1,14 +1,14 @@
 backend:
   name: github
-  repo: SirFrederick9/N-Vision-Website # Replace with your repo if different
+  repo: SirFrederickG/N-Vision-Website 
   branch: main
-  base_url: https://api.netlify.com # Required for GitHub OAuth with Netlify Git Gateway
+  base_url: https://api.netlify.com 
 
 media_folder: "assets/img/uploads"
 public_folder: "/assets/img/uploads"
 
 collections:
-  # Collection for general pages (like home, services)
+  # General Pages (Home, Services)
   - name: "pages"
     label: "Website Pages"
     files:
@@ -23,51 +23,35 @@ collections:
             name: "body"
             widget: "markdown"
 
-  # Collection for Portfolio Images (to replace hardcoded links)
-  - name: "portfolio_photos"
-    label: "Portfolio Photos"
-    folder: "content/portfolio" # Where the data files will live
+  # Combined Portfolio (Photos & Videos)
+  - name: "portfolio"
+    label: "Portfolio Items"
+    folder: "content/portfolio"
     create: true
     slug: "{{title}}"
     fields:
-      - label: "Photo Title"
+      - label: "Item Title"
         name: "title"
         widget: "string"
         required: true
-      - label: "Photo"
+      - label: "Type"
+        name: "type"
+        widget: "select"
+        options: ["Photo", "Video"]
+        default: "Photo"
+        required: true
+      - label: "Media Upload (Photo Only)"
         name: "image"
         widget: "image"
-        choose_url: false # Ensures image is uploaded to GitHub/Netlify LFS (or local)
-        allow_multiple: false
-        required: true
-      - label: "Description/Alt Text"
+        required: false
+        hint: "Upload your high-quality photo here."
+      - label: "Video URL (Video Only)"
+        name: "video_url"
+        widget: "string"
+        required: false
+        hint: "Paste the full public URL for the video (e.g., YouTube, Vimeo link)."
+      - label: "Alt Text / Description"
         name: "alt"
         widget: "string"
         required: true
-        hint: "A brief, descriptive text for accessibility."
-      - label: "Date Taken"
-        name: "date"
-        widget: "datetime"
-        required: false
-
-  # Collection for Highlight Reels (Video URLs)
-  - name: "highlight_reels"
-    label: "Highlight Reels"
-    folder: "content/reels"
-    create: true
-    slug: "{{title}}"
-    fields:
-      - label: "Reel Title"
-        name: "title"
-        widget: "string"
-        required: true
-      - label: "Video URL"
-        name: "video_url"
-        widget: "string"
-        required: true
-        hint: "Paste the full public URL for the video (e.g., YouTube, Vimeo)."
-      - label: "Thumbnail Image"
-        name: "thumbnail"
-        widget: "image"
-        required: false
-        hint: "Optional image for preview before video loads."
+        hint: "A brief, descriptive text for accessibility and SEO."
