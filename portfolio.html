@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>N Vision | Portfolio</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { 
+            margin:0; 
+            font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; 
+            background:#fafafa; 
+            color:#111; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        :root { --maxw: 1100px; }
+        .container { max-width: var(--maxw); margin: 0 auto; padding: 0 16px; }
+
+        /* Header layout – same everywhere */
+        header { background:#fff; position:sticky; top:0; z-index:50; border-bottom:1px solid #e5e7eb; }
+        header .container {
+            display:flex; align-items:center; justify-content:space-between;
+            gap:12px; flex-wrap:wrap; padding:10px 0;
+        }
+        .logo { height:28px; display:block; }
+
+        header nav { display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+        header nav a { text-decoration:none; color:#0a66c2; font-weight:500; }
+        header nav a[aria-current="page"] { color: #10b981; font-weight: 700; } /* Tailwind green-500 */
+
+        /* Mobile: stack nav under logo and center it */
+        @media (max-width: 560px) {
+            header .container { justify-content:center; }
+            header nav { width:100%; justify-content:center; order:2; gap:14px; }
+            .logo { height:24px; }
+        }
+
+        /* Portfolio Grid Styles */
+        main { 
+            flex-grow: 1;
+            padding-bottom: 3rem; 
+        }
+        .portfolio-item { 
+            display: block; 
+            overflow: hidden; 
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .portfolio-item:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+        .thumb-image { 
+            width: 100%; 
+            display: block; 
+            aspect-ratio: 16/9; 
+            object-fit: cover; 
+            cursor: zoom-in;
+        }
+        .video-container {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            margin-bottom: 0.5rem;
+        }
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Lightbox Styles */
+        dialog#lightbox { border:0; padding:0; background:transparent; width:min(96vw, 1200px); }
+        dialog[open] + .backdrop { opacity:1; pointer-events:auto; }
+        .lightbox-inner { position:relative; }
+        .lightbox-img { width:100%; height:auto; display:block; border-radius:12px; box-shadow:0 12px 40px rgba(0,0,0,.4); }
+        .lb-btn { position:absolute; top:12px; right:12px; width:42px; height:42px; border:0; border-radius:50%; background:rgba(0,0,0,.65); color:#fff; font-size:18px; cursor:pointer; }
+        .backdrop { position:fixed; inset:0; background:rgba(0,0,0,.75); opacity:0; pointer-events:none; transition:opacity .2s ease; z-index: 99; }
+        dialog { z-index: 100; }
+
+        /* Footer Styles */
+        footer { 
+            background: #fff; 
+            border-top: 1px solid #e5e7eb; 
+            padding: 16px 0; 
+            text-align: center; 
+            margin-top: auto;
+        }
+        
+        /* Gemini UI */
+        .ai-output-box {
+            min-height: 80px;
+            border: 1px dashed #a5b4fc; /* Tailwind indigo-300 */
+            background: #eef2ff; /* Tailwind indigo-50 */
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #312e81; /* Tailwind indigo-900 */
+            transition: background-color 0.3s;
+        }
+        .ai-output-box.loading {
+            background: #f0f9ff; /* Tailwind sky-50 */
+            color: #0c4a6e; /* Tailwind sky-900 */
+        }
+        .ai-output-box p:last-child { margin-bottom: 0; }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html"><img src="logo.png" alt="N Vision logo" class="logo"></a>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="portfolio.html" aria-current="page">Portfolio</a>
+                <a href="services.html">Services</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1 class="text-3xl font-bold mt-8 mb-4">Professional Aerial Portfolio</h1>
+        <p class="text-gray-600 mb-8">Showcasing the best of our drone photography and videography services. All content is managed directly via Decap CMS.</p>
+
+        <!-- Gemini AI Feature -->
+        <div class="mb-10 p-4 border rounded-xl bg-white shadow-lg">
+            <h2 class="text-xl font-semibold mb-3 flex items-center gap-2">
+                ✨ AI Copywriter: Draft SEO Summary
+            </h2>
+            <p class="text-sm text-gray-500 mb-3">
+                Use Gemini to analyze your portfolio and generate a concise, professional SEO description you can use for your website's metadata.
+            </p>
+            <div id="ai-output" class="ai-output-box">
+                Click the button below to generate a summary...
+            </div>
+            <button id="generate-seo" class="mt-4 px-4 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition duration-150 shadow-md">
+                Generate Portfolio Analysis ✨
+            </button>
+        </div>
+        
+        <!-- Portfolio Grid Placeholder -->
+        <section id="portfolio-grid" class="grid gap-4 mt-8" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));"></section>
+
+    </main>
+
+    <!-- Lightbox for Image Preview -->
+    <dialog id="lightbox" aria-label="Expanded image preview">
+        <div class="lightbox-inner">
+            <img class="lightbox-img" id="lightbox-img" alt="">
+            <button class="lb-btn" id="lightbox-close" aria-label="Close">✕</button>
+        </div>
+    </dialog>
+    <div class="backdrop" id="backdrop"></div>
+
+    <!-- 8) Contact Section -->
+    <section id="contact" class="bg-gray-100 py-12">
+        <div class="container text-center">
+            <h2 class="text-2xl font-bold mb-4">Contact</h2>
+            <p class="text-gray-600">St. Louis · Metro East · Insured · Part 107</p>
+            <p class="text-lg mt-2">
+                Email: <a href="mailto:pilot_n_young@icloud.com" class="text-indigo-600 hover:text-indigo-800">pilot.n.young@icloud.com</a> 
+                · Phone: <a href="tel:+16188030020" class="text-indigo-600 hover:text-indigo-800">(618) 803-0020</a>
+            </p>
+            <div class="mt-6 flex justify-center space-x-4">
+                <a class="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-800 transition shadow-md" 
+                   href="https://instagram.com/n_vision_aerial_photography" target="_blank" rel="noopener">Instagram</a>
+                <a class="px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition shadow-md" 
+                   href="https://www.linkedin.com/in/nathaniel-young-900b71300?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" rel="noopener">LinkedIn</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <small>© <span id="y"></span> N Vision Aerial Photography</small>
+    </footer>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+
+    <!-- Main Application Script -->
+    <script>
+        const portfolioGrid = document.getElementById('portfolio-grid');
+        const aiOutput = document.getElementById('ai-output');
+        const generateSeoButton = document.getElementById('generate-seo');
+
+        // --- Utility Functions ---
+
+        // Function to create an exponentially decaying delay before retries
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function fetchWithRetry(url, options, retries = 5) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) {
+                        if (response.status === 429 && i < retries - 1) { // Too Many Requests
+                            const delay = Math.pow(2, i) * 1000;
+                            console.warn(`Rate limit hit, retrying in ${delay / 1000}s...`);
+                            await sleep(delay);
+                            continue;
+                        }
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                } catch (error) {
+                    if (i === retries - 1) {
+                        console.error('Fetch failed after all retries:', error);
+                        throw error;
+                    }
+                    // Simple sleep before next retry
+                    await sleep(1000); 
+                }
+            }
+        }
+        
+        // --- Portfolio Loading Logic ---
+
+        let portfolioData = [];
+
+        function renderPortfolio(data) {
+            portfolioGrid.innerHTML = ''; // Clear existing content
+            data.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'portfolio-item';
+
+                let contentHtml = '';
+                let title = item.title || 'Untitled Item';
+                let altText = item.alt || 'Portfolio item';
+
+                if (item.type === 'Photo' && item.image) {
+                    // Photo Rendering (3-column grid)
+                    itemDiv.classList.add('col-span-1', 'row-span-1');
+                    contentHtml = `
+                        <a href="javascript:void(0)" onclick="openLightbox('${item.image}', '${altText.replace(/'/g, "\\'")}')">
+                            <img src="${item.image}" alt="${altText}" class="thumb-image">
+                        </a>
+                        <div class="p-3 bg-white">
+                            <h3 class="font-bold text-base">${title}</h3>
+                            <p class="text-sm text-gray-500">${altText}</p>
+                        </div>
+                    `;
+                } else if (item.type === 'Video' && item.video_url) {
+                    // Video Rendering (Full-width row)
+                    itemDiv.classList.add('lg:col-span-3', 'md:col-span-2', 'col-span-1'); // Adjust spans for visual grouping
+                    
+                    let embedUrl = item.video_url;
+                    // Simple conversion for common platforms (YouTube/Vimeo)
+                    if (embedUrl.includes('youtube.com') || embedUrl.includes('youtu.be')) {
+                        const videoId = embedUrl.match(/(?<=v=)[\w-]+|(?<=youtu\.be\/)[\w-]+/)?.[0];
+                        if (videoId) {
+                            embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0`;
+                        }
+                    } else if (embedUrl.includes('vimeo.com')) {
+                        const videoId = embedUrl.match(/\d+$/)?.[0];
+                        if (videoId) {
+                            embedUrl = `https://player.vimeo.com/video/${videoId}`;
+                        }
+                    }
+                    
+                    contentHtml = `
+                        <div class="video-container">
+                            <iframe src="${embedUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                        </div>
+                        <div class="p-3 bg-white">
+                            <h3 class="font-bold text-lg">${title} (Video)</h3>
+                            <p class="text-sm text-gray-500">${altText}</p>
+                        </div>
+                    `;
+                }
+
+                itemDiv.innerHTML = contentHtml;
+                portfolioGrid.appendChild(itemDiv);
+            });
+
+            portfolioData = data; // Store data for AI analysis
+        }
+
+        async function loadPortfolio() {
+            try {
+                // Decap CMS saves collections as JSON arrays at /admin/collections/collection_name/index.json or a single file if configured
+                // Based on config, we expect a collection entry file for each item, but we'll try to fetch a common index path first.
+                // NOTE: For static sites like this, the SSG usually compiles the data into a single JSON file. We'll simulate fetching a compiled file.
+                // Since this page is loaded outside of an SSG context, we'll simulate data. 
+                // In a real SSG environment (Jekyll, Hugo, etc.), you would access a variable like site.data.portfolio.
+
+                // --- Simulating fetch of SSG-compiled data from a predictable path ---
+                const response = await fetch('./content/portfolio/index.json'); 
+                const data = await response.json();
+                
+                // If data is an array (typical SSG output), use it.
+                if (Array.isArray(data)) {
+                    renderPortfolio(data);
+                } else {
+                    // If fetching fails or returns single object, inform the user to create content
+                    throw new Error("Data not found or not in expected array format. Create items in Decap CMS.");
+                }
+
+            } catch (error) {
+                console.error("Failed to load portfolio data. Check your SSG setup and ensure content/portfolio/index.json exists.", error);
+                portfolioGrid.innerHTML = '<p class="p-8 text-center text-red-600 bg-red-100 rounded-lg col-span-full">Error loading portfolio. Please check if Netlify/SSG has compiled your content files correctly or if files exist in the CMS.</p>';
+                // Fallback for initial load when no content exists (no content file means 404)
+                if (error.message.includes('HTTP error! status: 404')) {
+                     portfolioGrid.innerHTML = '<p class="p-8 text-center text-gray-600 bg-yellow-100 rounded-lg col-span-full">No portfolio items found. Please log into the CMS and create your first entry in the "Portfolio Items" collection.</p>';
+                }
+            }
+        }
+
+        // --- Lightbox Functions ---
+
+        const dlg = document.getElementById('lightbox');
+        const img = document.getElementById('lightbox-img');
+        const closeBtn = document.getElementById('lightbox-close');
+        const backdrop = document.getElementById('backdrop');
+
+        window.openLightbox = function(src, alt) {
+            img.src = src; 
+            img.alt = alt || '';
+            if (!dlg.open) dlg.showModal();
+        }
+
+        function closeLightbox() { 
+            if (dlg.open) dlg.close(); 
+            img.removeAttribute('src'); 
+        }
+
+        closeBtn.addEventListener('click', closeLightbox);
+        backdrop.addEventListener('click', closeLightbox);
+        dlg.addEventListener('cancel', (e) => { e.preventDefault(); closeLightbox(); });
+
+        // --- Gemini AI Logic ---
+
+        async function generateSeoSummary() {
+            if (portfolioData.length === 0) {
+                aiOutput.innerHTML = 'Cannot generate summary: Portfolio data is empty.';
+                aiOutput.classList.remove('loading');
+                return;
+            }
+
+            const promptData = portfolioData.map(item => 
+                `${item.type}: "${item.title}" (${item.alt})`
+            ).join('; ');
+
+            const userQuery = `Analyze the following list of aerial photography and videography portfolio items. Based on this content, draft a single, concise (max 20-word) sentence suitable for a website's SEO meta description. Focus on services, quality, and location (if implied). Portfolio Items: ${promptData}`;
+            
+            const apiKey = ""; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+            // Set loading state
+            aiOutput.innerHTML = 'Analyzing portfolio and drafting copy... (Uses Google Search for grounding)';
+            aiOutput.classList.add('loading');
+            generateSeoButton.disabled = true;
+
+            const systemPrompt = "Act as a world-class SEO copywriter specializing in aerial drone services. Your summary must be concise (max 20 words), professional, and optimized for search engine visibility, highlighting key services (photography, video) and quality.";
+            
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                tools: [{ "google_search": {} }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+            };
+
+            try {
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const result = response; 
+                const text = result.candidates?.[0]?.content?.parts?.[0]?.text || "Error: Could not generate content.";
+                
+                aiOutput.innerHTML = `<p class="font-bold text-lg">SEO Draft:</p><p>"${text.trim()}"</p>`;
+
+            } catch (error) {
+                aiOutput.innerHTML = `<p class="font-bold text-red-700">Generation Error:</p><p>Failed to connect to AI service. Check the console for details.</p>`;
+                console.error("AI Generation Failed:", error);
+
+            } finally {
+                aiOutput.classList.remove('loading');
+                generateSeoButton.disabled = false;
+            }
+        }
+
+        generateSeoButton.addEventListener('click', generateSeoSummary);
+
+        // Load data when the page loads
+        document.addEventListener('DOMContentLoaded', loadPortfolio);
+
+    </script>
+</body>
+</html>
