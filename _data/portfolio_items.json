@@ -1,26 +1,17 @@
-{
-  "portfolioItems": [
-    {
-      "category": "Aviation",
-      "title": "Yellow Cub",
-      "imageUrl": "https://youtube.com/shorts/M_aBMmd9ha0",
-      "description": "Beautiful fall flight"
-    }
-  ],
-  "portfolioRes": [
-    {
-      "category": "Aviation",
-      "title": "Yellow cub",
-      "description": "Beautiful day to fly",
-      "image_url": "https://youtube.com/shorts/M_aBMmd9ha0"
-    }
-  ],
-  "portfolioRes.portfolioItems": [
-    {
-      "category": "Aviation",
-      "title": "yellow cub",
-      "description": "beautiful day",
-      "image_url": "https://youtube.com/shorts/M_aBMmd9ha0"
-    }
-  ]
-}
+[  
+  {  
+    "title": "Project A",  
+    "description": "Description of Project A",  
+    "link": "https://example.com/project-a"  
+  },  
+  {  
+    "title": "Project B",  
+    "description": "Description of Project B",  
+    "link": "https://example.com/project-b"  
+  },  
+  {  
+    "title": "Project C",  
+    "description": "Description of Project C",  
+    "link": "https://example.com/project-c"  
+  }  
+]
