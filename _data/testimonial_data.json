@@ -1,11 +1,1 @@
-{
-  "testimonialData": [
-    {
-      "quote": "\"Worth every penny!\"",
-      "name": "Chase",
-      "title": "Owner",
-      "mission": "Aviation",
-      "color": "cyan"
-    }
-  ]
-}
+[{"name":"John Doe","testimonial":"This is an amazing product!"},{"name":"Jane Smith","testimonial":"I had a wonderful experience!"}]
